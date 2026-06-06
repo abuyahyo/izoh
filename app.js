@@ -102,6 +102,12 @@ function renderHome() {
         <span class="lbl">ibora</span>
       </div>
     </div>
+    <div class="home-cta-wrap">
+      <a class="home-cta" href="#" id="home-random-cta">
+        <svg viewBox="0 0 20 20" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M15 2H5a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3Zm-9 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4-3.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4 3.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"/></svg>
+        Tasodifiy so‘z ko‘rsat
+      </a>
+    </div>
     <p class="home-tip">
       Yuqoridagi maydondan so‘z qidiring yoki pastdagi <strong>Alifbo</strong> bo‘yicha ko‘ring.
     </p>
@@ -392,11 +398,31 @@ function setupSearch() {
   }
 }
 
+function randomGo() {
+  if (!INDEX.length) return;
+  const w = INDEX[Math.floor(Math.random() * INDEX.length)];
+  location.hash = '#/word/' + encodeURIComponent(w);
+}
+
 function setupRandom() {
-  document.getElementById('random-btn').addEventListener('click', () => {
-    if (!INDEX.length) return;
-    const w = INDEX[Math.floor(Math.random() * INDEX.length)];
-    location.hash = '#/word/' + encodeURIComponent(w);
+  const bottomBtn = document.getElementById('random-btn');
+  const topBtn = document.getElementById('random-btn-top');
+  if (bottomBtn) bottomBtn.addEventListener('click', randomGo);
+  if (topBtn) topBtn.addEventListener('click', randomGo);
+  // delegated: home page CTA (rendered later)
+  document.addEventListener('click', e => {
+    if (e.target.closest('#home-random-cta')) {
+      e.preventDefault();
+      randomGo();
+    }
+  });
+  // keyboard shortcut "R"
+  document.addEventListener('keydown', e => {
+    if (e.key === 'r' && !e.ctrlKey && !e.metaKey && !e.altKey &&
+        document.activeElement.tagName !== 'INPUT' &&
+        document.activeElement.tagName !== 'TEXTAREA') {
+      randomGo();
+    }
   });
 }
 
