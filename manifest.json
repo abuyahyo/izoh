@@ -1,0 +1,20 @@
+{
+  "name": "Izoh — O'zbek tilining izohli lug'ati",
+  "short_name": "Izoh",
+  "description": "35,491 ta o'zbekcha so'zning izohli lug'ati. Oflayn ishlaydi.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#A52A2A",
+  "lang": "uz",
+  "dir": "ltr",
+  "categories": ["education", "books", "reference"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -39,6 +39,20 @@ python build/split.py
 git add data/ && git commit -m "Update dictionary data" && git push
 ```
 
+## Service Worker (PWA)
+
+**MUHIM:** `index.html`, `app.js`, `style.css` yoki `manifest.json` o'zgartirilsa, **majburiy** `python build/build_sw.py` ishga tushirilsin va `sw.js` ham commit qilinsin.
+
+`build_sw.py` watched fayllarning SHA-1 hashidan `CACHE_VERSION` yaratadi. Bu o'zgarganda eski foydalanuvchilarning brauzeri yangi SW'ni topadi, eski keshni o'chiradi va sahifani avtomatik qayta yuklaydi — kesh tozalash kerak emas.
+
+### SW strategiyasi
+- **App shell** (HTML/CSS/JS, ikonkalar): network-first → online vaqt eng yangi, offline vaqt keshdan
+- **`data/index.json`, `data/letters.json`**: stale-while-revalidate → tez ko'rsatadi, orqa fonda yangilaydi
+- **`data/<HARF>.json`**: cache-first → bir marta yuklansa qayta-qayta ishlatiladi (kam o'zgaradi)
+
+### Ikonkalar
+`python build/make_icons.py` — `icons/` papkasini qayta yaratadi (PIL kerak). Logo dizayni o'zgartirilsa qayta ishga tushirilsin.
+
 ## Yozuv strukturasi (har so'z uchun)
 
 ```json

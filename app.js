@@ -454,10 +454,37 @@ function setupRandom() {
   });
 }
 
+// === Service Worker (PWA) ===
+function setupSW() {
+  if (!('serviceWorker' in navigator)) return;
+  // Auto-reload when a new SW takes control (after deploy)
+  let reloading = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (reloading) return;
+    reloading = true;
+    location.reload();
+  });
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      // If an update is found, ask it to activate immediately
+      reg.addEventListener('updatefound', () => {
+        const nw = reg.installing;
+        if (!nw) return;
+        nw.addEventListener('statechange', () => {
+          if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+            nw.postMessage('skipWaiting');
+          }
+        });
+      });
+    }).catch(err => console.warn('SW register failed:', err));
+  });
+}
+
 // === Init ===
 async function init() {
   setupRandom();
   setupSearch();
+  setupSW();
   await Promise.all([loadIndex(), buildLettersNav()]);
   window.addEventListener('hashchange', route);
   route();
