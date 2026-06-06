@@ -52,10 +52,38 @@ async function loadLetter(letter) {
 }
 
 async function findWord(word) {
-  const letter = letterOf(word);
+  const w = cyrToLat(word);
+  const letter = letterOf(w);
   const recs = await loadLetter(letter);
-  const wLower = word.toLocaleLowerCase('uz');
+  const wLower = w.toLocaleLowerCase('uz');
   return recs.find(r => (r.word || '').toLocaleLowerCase('uz') === wLower) || null;
+}
+
+// === Cyrillic -> Latin (O'zbek alifbosi) ===
+const CYR_MAP = {
+  // multi-char first (di-graphs)
+  'ё':'yo','Ё':'Yo','ю':'yu','Ю':'Yu','я':'ya','Я':'Ya',
+  'ч':'ch','Ч':'Ch','ш':'sh','Ш':'Sh','ў':"o'","Ў":"O'",
+  'ғ':"g'","Ғ":"G'",
+  // single chars
+  'а':'a','А':'A','б':'b','Б':'B','в':'v','В':'V','г':'g','Г':'G',
+  'д':'d','Д':'D','е':'e','Е':'E','ж':'j','Ж':'J','з':'z','З':'Z',
+  'и':'i','И':'I','й':'y','Й':'Y','к':'k','К':'K','қ':'q','Қ':'Q',
+  'л':'l','Л':'L','м':'m','М':'M','н':'n','Н':'N','о':'o','О':'O',
+  'п':'p','П':'P','р':'r','Р':'R','с':'s','С':'S','т':'t','Т':'T',
+  'у':'u','У':'U','ф':'f','Ф':'F','х':'x','Х':'X','ҳ':'h','Ҳ':'H',
+  'ц':'s','Ц':'S','щ':'shch','Щ':'Shch','ъ':"'",'ь':'','ы':'i','Ы':'I',
+  'э':'e','Э':'E','ʼ':"'",
+};
+const CYR_RE = /[Ѐ-ӿʼ]/;
+
+function cyrToLat(s) {
+  if (!s || !CYR_RE.test(s)) return s;
+  let out = '';
+  for (const ch of s) {
+    out += (ch in CYR_MAP) ? CYR_MAP[ch] : ch;
+  }
+  return out;
 }
 
 // === Utils ===
@@ -319,7 +347,7 @@ function setupSearch() {
 
   function search(query) {
     if (!INDEX.length) return [];
-    const q = query.trim().toLocaleLowerCase('uz');
+    const q = cyrToLat(query.trim()).toLocaleLowerCase('uz');
     if (!q) return [];
     const exact = [];
     const prefix = [];
