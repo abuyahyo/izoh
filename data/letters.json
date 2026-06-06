@@ -1,0 +1,142 @@
+[
+  {
+    "letter": "A",
+    "file": "A.json",
+    "count": 1949
+  },
+  {
+    "letter": "B",
+    "file": "B.json",
+    "count": 2915
+  },
+  {
+    "letter": "Ch",
+    "file": "Ch.json",
+    "count": 1144
+  },
+  {
+    "letter": "D",
+    "file": "D.json",
+    "count": 1435
+  },
+  {
+    "letter": "E",
+    "file": "E.json",
+    "count": 741
+  },
+  {
+    "letter": "F",
+    "file": "F.json",
+    "count": 566
+  },
+  {
+    "letter": "G",
+    "file": "G.json",
+    "count": 844
+  },
+  {
+    "letter": "G'",
+    "file": "G_.json",
+    "count": 555
+  },
+  {
+    "letter": "H",
+    "file": "H.json",
+    "count": 872
+  },
+  {
+    "letter": "I",
+    "file": "I.json",
+    "count": 1211
+  },
+  {
+    "letter": "J",
+    "file": "J.json",
+    "count": 650
+  },
+  {
+    "letter": "K",
+    "file": "K.json",
+    "count": 2101
+  },
+  {
+    "letter": "L",
+    "file": "L.json",
+    "count": 468
+  },
+  {
+    "letter": "M",
+    "file": "M.json",
+    "count": 1816
+  },
+  {
+    "letter": "N",
+    "file": "N.json",
+    "count": 860
+  },
+  {
+    "letter": "O",
+    "file": "O.json",
+    "count": 1253
+  },
+  {
+    "letter": "O'",
+    "file": "O_.json",
+    "count": 680
+  },
+  {
+    "letter": "P",
+    "file": "P.json",
+    "count": 1372
+  },
+  {
+    "letter": "Q",
+    "file": "Q.json",
+    "count": 2132
+  },
+  {
+    "letter": "R",
+    "file": "R.json",
+    "count": 797
+  },
+  {
+    "letter": "S",
+    "file": "S.json",
+    "count": 2710
+  },
+  {
+    "letter": "Sh",
+    "file": "Sh.json",
+    "count": 1089
+  },
+  {
+    "letter": "T",
+    "file": "T.json",
+    "count": 3167
+  },
+  {
+    "letter": "U",
+    "file": "U.json",
+    "count": 610
+  },
+  {
+    "letter": "V",
+    "file": "V.json",
+    "count": 603
+  },
+  {
+    "letter": "X",
+    "file": "X.json",
+    "count": 887
+  },
+  {
+    "letter": "Y",
+    "file": "Y.json",
+    "count": 1505
+  },
+  {
+    "letter": "Z",
+    "file": "Z.json",
+    "count": 559
+  }
+]

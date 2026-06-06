@@ -1,0 +1,454 @@
+/* === Reset === */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #ffffff;
+  color: #1f2937;
+  line-height: 1.55;
+  font-size: 16px;
+  -webkit-tap-highlight-color: transparent;
+  padding-bottom: 80px; /* room for bottom nav on mobile */
+}
+a { color: #0284c7; text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font: inherit; cursor: pointer; border: 0; background: none; }
+h1, h2, h3 { line-height: 1.25; }
+
+/* === Header === */
+header {
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #1f2937;
+  flex-shrink: 0;
+}
+.logo:hover { text-decoration: none; }
+.logo svg {
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.logo-text {
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 500;
+  color: #334155;
+}
+
+/* === Search === */
+.search-wrap {
+  flex: 1 1 100%;
+  position: relative;
+  order: 3;
+}
+@media (min-width: 720px) {
+  .search-wrap { flex: 1 1 auto; order: 0; min-width: 300px; }
+}
+#search {
+  width: 100%;
+  padding: 12px 48px 12px 16px;
+  font-size: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #ffffff;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+#search:focus {
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14,165,233,.12);
+}
+#search-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 44px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#suggestions {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  max-height: 360px;
+  overflow-y: auto;
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  z-index: 30;
+}
+#suggestions li {
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+#suggestions li:hover, #suggestions li.active {
+  background: #fff7ed;
+  color: #0284c7;
+}
+
+/* === Main === */
+main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 16px;
+}
+#view { min-height: 50vh; }
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #94a3b8;
+}
+
+/* === Home === */
+.home-hero {
+  background: #fff7ed;
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.home-hero h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  color: #1f2937;
+}
+.home-hero p {
+  margin: 0;
+  color: #475569;
+  font-size: 15px;
+}
+.home-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+.stat-card {
+  background: #fff7ed;
+  border-radius: 12px;
+  padding: 18px 12px;
+  text-align: center;
+}
+.stat-card .num {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: #b45309;
+}
+.stat-card .lbl {
+  display: block;
+  font-size: 12px;
+  color: #78716c;
+  margin-top: 4px;
+}
+.home-tip {
+  background: #f0f9ff;
+  border-radius: 12px;
+  padding: 16px;
+  color: #075985;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* === Word page === */
+.word-page {
+  background: #fff7ed;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+@media (min-width: 720px) {
+  .word-page { padding: 32px 36px; }
+}
+.word-page h1 {
+  font-size: 36px;
+  margin: 0 0 4px;
+  color: #1c1917;
+  word-wrap: break-word;
+  font-weight: 700;
+}
+@media (min-width: 720px) {
+  .word-page h1 { font-size: 56px; }
+}
+.word-page .word-header {
+  font-size: 12px;
+  color: #78716c;
+  margin-bottom: 4px;
+}
+.word-page .word-header strong { color: #b45309; }
+.word-page .pos {
+  color: #78716c;
+  font-style: italic;
+  margin: 4px 0 24px;
+  font-size: 14px;
+}
+
+.meaning {
+  margin-bottom: 18px;
+}
+.meaning:last-of-type { margin-bottom: 0; }
+.meaning-def {
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: #1c1917;
+  font-size: 16px;
+}
+.meaning-def .marker {
+  font-style: italic;
+  color: #78716c;
+  font-weight: 400;
+  margin-right: 4px;
+}
+.meaning-examples {
+  margin: 8px 0 0;
+  padding-left: 24px;
+  color: #44403c;
+  font-size: 15px;
+  list-style: disc;
+}
+.meaning-examples li { margin-bottom: 6px; line-height: 1.5; }
+.example-source {
+  color: #a8a29e;
+  font-style: italic;
+  font-size: 13px;
+  margin-left: 4px;
+}
+
+/* === Idioms === */
+.idioms-section { margin-top: 28px; }
+.idioms-section h2 {
+  font-size: 15px;
+  color: #57534e;
+  margin: 0 0 14px;
+  text-transform: lowercase;
+  font-weight: 700;
+}
+.idiom {
+  background: rgba(0,0,0,.05);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+}
+.idiom-phrase {
+  font-weight: 700;
+  color: #1c1917;
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+.idiom-def {
+  margin: 0 0 8px;
+  color: #44403c;
+  font-size: 15px;
+}
+.idiom .meaning-examples { padding-left: 24px; }
+
+/* === Share === */
+.share {
+  display: flex;
+  gap: 10px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+.share a, .share button {
+  flex: 1;
+  min-width: 110px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.share a:hover, .share button:hover { text-decoration: none; opacity: .92; }
+.share .tg { background: #229ED9; }
+.share .wa { background: #25D366; }
+.share .copy { background: #64748b; }
+.share .source { background: transparent; color: #0284c7; border: 1px solid #bae6fd; }
+
+/* === Letters section === */
+.letters-section {
+  margin: 32px 0 16px;
+}
+.letters-section h2 {
+  font-size: 15px;
+  color: #57534e;
+  margin: 0 0 12px;
+  font-weight: 700;
+}
+#letters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+#letters a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 10px;
+  background: #fff7ed;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 15px;
+}
+#letters a:hover {
+  background: #fed7aa;
+  text-decoration: none;
+}
+#letters a.active {
+  background: #b45309;
+  color: white;
+}
+
+/* === Letter list page === */
+.letter-page-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #fff7ed;
+}
+.letter-page-header h1 {
+  font-size: 42px;
+  margin: 0;
+  color: #b45309;
+}
+.letter-page-header .count {
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+}
+.letter-list {
+  columns: 2;
+  column-gap: 16px;
+}
+@media (min-width: 600px) { .letter-list { columns: 3; } }
+@media (min-width: 900px) { .letter-list { columns: 4; } }
+@media (min-width: 1200px) { .letter-list { columns: 5; } }
+.letter-list a {
+  display: block;
+  padding: 6px 0;
+  break-inside: avoid;
+  color: #0284c7;
+  font-size: 15px;
+}
+
+/* === All letters index === */
+.all-letters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
+}
+.all-letters a {
+  background: #fff7ed;
+  padding: 16px 8px;
+  border-radius: 12px;
+  text-align: center;
+  color: #1f2937;
+  font-weight: 700;
+}
+.all-letters a:hover { background: #fed7aa; text-decoration: none; }
+.all-letters .big { font-size: 26px; color: #b45309; display: block; }
+.all-letters .small { font-size: 12px; color: #78716c; display: block; margin-top: 4px; font-weight: 400; }
+
+/* === Not found === */
+.not-found {
+  text-align: center;
+  padding: 60px 20px;
+  color: #64748b;
+}
+.not-found h1 { color: #1f2937; font-size: 28px; margin: 0 0 12px; }
+.not-found .icon { font-size: 56px; margin-bottom: 16px; }
+
+/* === Bottom nav (mobile only) === */
+.bottom-bar {
+  position: fixed;
+  inset-x: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: 0 -2px 10px rgba(0,0,0,.08);
+  display: flex;
+  z-index: 25;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.bottom-bar a, .bottom-bar button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 4px;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.bottom-bar a:hover, .bottom-bar button:hover {
+  color: #b45309;
+  text-decoration: none;
+}
+.bottom-bar a.active { color: #b45309; }
+.bottom-bar svg { display: block; }
+
+@media (min-width: 720px) {
+  .bottom-bar { display: none; }
+  body { padding-bottom: 24px; }
+}
+
+/* === Footer (desktop) === */
+footer {
+  display: none;
+}
+@media (min-width: 720px) {
+  footer {
+    display: block;
+    text-align: center;
+    padding: 30px 16px 60px;
+    color: #94a3b8;
+    font-size: 13px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  footer p { margin: 4px 0; }
+}
