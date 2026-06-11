@@ -232,12 +232,6 @@ main {
 @media (min-width: 720px) {
   .word-page h1 { font-size: 56px; }
 }
-.word-page .word-header {
-  font-size: 12px;
-  color: #78716c;
-  margin-bottom: 4px;
-}
-.word-page .word-header strong { color: #b45309; }
 .word-page .pos {
   color: #78716c;
   font-style: italic;
@@ -275,64 +269,6 @@ main {
   font-size: 13px;
   margin-left: 4px;
 }
-
-/* === Idioms === */
-.idioms-section { margin-top: 28px; }
-.idioms-section h2 {
-  font-size: 15px;
-  color: #57534e;
-  margin: 0 0 14px;
-  text-transform: lowercase;
-  font-weight: 700;
-}
-.idiom {
-  background: rgba(0,0,0,.05);
-  border-radius: 12px;
-  padding: 16px 20px;
-  margin-bottom: 12px;
-}
-.idiom-phrase {
-  font-weight: 700;
-  color: #1c1917;
-  margin: 0 0 6px;
-  font-size: 15px;
-}
-.idiom-def {
-  margin: 0 0 8px;
-  color: #44403c;
-  font-size: 15px;
-}
-.idiom .meaning-examples { padding-left: 24px; }
-
-/* === Share === */
-.share {
-  display: flex;
-  gap: 10px;
-  margin-top: 28px;
-  flex-wrap: wrap;
-  padding-top: 20px;
-  border-top: 1px solid rgba(0,0,0,.08);
-}
-.share a, .share button {
-  flex: 1;
-  min-width: 110px;
-  padding: 12px 14px;
-  border-radius: 10px;
-  text-align: center;
-  font-weight: 600;
-  color: white;
-  text-decoration: none;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-.share a:hover, .share button:hover { text-decoration: none; opacity: .92; }
-.share .tg { background: #229ED9; }
-.share .wa { background: #25D366; }
-.share .copy { background: #64748b; }
-.share .source { background: transparent; color: #0284c7; border: 1px solid #bae6fd; }
 
 /* === Letters section === */
 .letters-section {

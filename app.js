@@ -2,7 +2,6 @@
 'use strict';
 
 const DATA = 'data/';
-const SHARE_BASE = location.origin + location.pathname;
 
 let INDEX = [];
 let INDEX_LOWER = [];
@@ -162,8 +161,6 @@ function renderExamplesList(examples) {
 
 function renderWord(rec) {
   const wd = rec.word;
-  const shareUrl = SHARE_BASE + '#/word/' + encodeURIComponent(wd);
-  const shareText = `${wd} — Izoh`;
 
   const meaningsHtml = (rec.meanings || []).map(m => {
     const { marker, rest } = splitDefMarker(m.definition || '');
@@ -173,34 +170,11 @@ function renderWord(rec) {
     </div>`;
   }).join('');
 
-  const idiomsHtml = (rec.idioms && rec.idioms.length) ? `
-    <div class="idioms-section">
-      <h2>${esc(wd.toUpperCase())} so‘zi qatnashgan iboralar</h2>
-      ${rec.idioms.map(id => {
-        const { marker, rest } = splitDefMarker(id.definition || '');
-        return `<div class="idiom">
-          <p class="idiom-phrase">${esc(id.phrase)}</p>
-          ${rest ? `<p class="idiom-def">${marker ? `<span class="marker" style="font-style:italic;color:#78716c;">${esc(marker)} </span>` : ''}${esc(rest)}</p>` : ''}
-          ${renderExamplesList(id.examples)}
-        </div>`;
-      }).join('')}
-    </div>` : '';
-
   return `
     <article class="word-page">
-      <div class="word-header">
-        <strong>Izoh</strong> · ${esc(wd)} so‘zining izohi va ma'nolari
-      </div>
       <h1>${esc(wd)}</h1>
       ${rec.part_of_speech ? `<p class="pos">${esc(rec.part_of_speech)}</p>` : ''}
       ${meaningsHtml || '<p style="color:#78716c;">Bu so‘z uchun izoh hali kiritilmagan.</p>'}
-      ${idiomsHtml}
-      <div class="share">
-        <a class="tg" href="https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}" target="_blank" rel="noopener">Telegram</a>
-        <a class="wa" href="https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}" target="_blank" rel="noopener">WhatsApp</a>
-        <button class="copy" id="copy-link" type="button">Linkni nusxalash</button>
-        ${rec.url ? `<a class="source" href="${esc(rec.url)}" target="_blank" rel="noopener">Manba (izoh.uz)</a>` : ''}
-      </div>
     </article>
   `;
 }
@@ -268,16 +242,6 @@ async function route() {
       view.innerHTML = renderWord(rec);
       document.title = `${rec.word} — Izoh`;
       window.scrollTo(0, 0);
-      const copyBtn = document.getElementById('copy-link');
-      if (copyBtn) {
-        copyBtn.addEventListener('click', () => {
-          const url = SHARE_BASE + '#/word/' + encodeURIComponent(rec.word);
-          navigator.clipboard?.writeText(url).then(() => {
-            copyBtn.textContent = 'Nusxalandi ✓';
-            setTimeout(() => copyBtn.textContent = 'Linkni nusxalash', 1500);
-          });
-        });
-      }
       return;
     }
 
