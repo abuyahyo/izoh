@@ -10,7 +10,7 @@
 // CACHE_VERSION is replaced at build time by build/build_sw.py from content hash.
 // Any change to index.html / app.js / style.css / manifest.json → new version → new cache.
 
-const CACHE_VERSION = '45e9392b63ff';
+const CACHE_VERSION = 'b3a77442f2dd';
 const SHELL_CACHE = `izoh-shell-${CACHE_VERSION}`;
 const DATA_CACHE  = `izoh-data-${CACHE_VERSION}`;
 

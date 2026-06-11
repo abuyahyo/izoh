@@ -5,7 +5,6 @@ const DATA = 'data/';
 
 let INDEX = [];
 let INDEX_LOWER = [];
-let LETTERS = [];
 let LETTER_CACHE = {};
 let LOADING_LETTER = {};
 
@@ -33,12 +32,6 @@ async function loadIndex() {
   const r = await fetch(DATA + 'index.json');
   INDEX = await r.json();
   INDEX_LOWER = INDEX.map(w => w.toLocaleLowerCase('uz'));
-}
-
-async function loadLetters() {
-  if (LETTERS.length) return;
-  const r = await fetch(DATA + 'letters.json');
-  LETTERS = await r.json();
 }
 
 async function loadLetter(letter) {
@@ -129,14 +122,8 @@ function renderHome() {
         <span class="lbl">ibora</span>
       </div>
     </div>
-    <div class="home-cta-wrap">
-      <a class="home-cta" href="#" id="home-random-cta">
-        <svg viewBox="0 0 20 20" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M15 2H5a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3Zm-9 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4-3.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4 3.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"/></svg>
-        Tasodifiy so‘z ko‘rsat
-      </a>
-    </div>
     <p class="home-tip">
-      Yuqoridagi maydondan so‘z qidiring yoki pastdagi <strong>Alifbo</strong> bo‘yicha ko‘ring.
+      Yuqoridagi maydondan so‘z qidiring.
     </p>
   `;
 }
@@ -152,13 +139,6 @@ function renderNotFound(word) {
   `;
 }
 
-function renderExamplesList(examples) {
-  if (!examples || !examples.length) return '';
-  return `<ul class="meaning-examples">${examples.map(ex =>
-    `<li>${esc(ex.text)}${ex.source ? ` <span class="example-source">— ${esc(ex.source)}</span>` : ''}</li>`
-  ).join('')}</ul>`;
-}
-
 function renderWord(rec) {
   const wd = rec.word;
 
@@ -166,7 +146,6 @@ function renderWord(rec) {
     const { marker, rest } = splitDefMarker(m.definition || '');
     return `<div class="meaning">
       <p class="meaning-def">${marker ? `<span class="marker">${esc(marker)}</span>` : ''}${esc(rest)}</p>
-      ${renderExamplesList(m.examples)}
     </div>`;
   }).join('');
 
@@ -179,54 +158,16 @@ function renderWord(rec) {
   `;
 }
 
-function renderLetterPage(letter, recs) {
-  return `
-    <div>
-      <div class="letter-page-header">
-        <h1>${esc(letter)}</h1>
-        <span class="count">${fmtNum(recs.length)} ta so‘z</span>
-      </div>
-      <div class="letter-list">
-        ${recs.map(r => `<a href="#/word/${encodeURIComponent(r.word)}">${esc(r.word)}</a>`).join('')}
-      </div>
-    </div>
-  `;
-}
-
-function renderAllLetters() {
-  return `
-    <h1 style="margin:0 0 20px;font-size:24px;">Alifbo bo‘yicha</h1>
-    <div class="all-letters">
-      ${LETTERS.map(l =>
-        `<a href="#/letter/${encodeURIComponent(l.letter)}">
-          <span class="big">${esc(l.letter)}</span>
-          <span class="small">${fmtNum(l.count)} so‘z</span>
-        </a>`
-      ).join('')}
-    </div>
-  `;
-}
-
 // === Router ===
 async function route() {
   const hash = location.hash || '#/';
   const view = document.getElementById('view');
   view.innerHTML = '<p class="loading">Yuklanmoqda…</p>';
 
-  highlightActiveLetter(null);
-  highlightBottomNav(hash);
-
   try {
     if (hash === '#/' || hash === '') {
       view.innerHTML = renderHome();
       document.title = "Izoh — O‘zbek tilining izohli lug‘ati";
-      window.scrollTo(0, 0);
-      return;
-    }
-
-    if (hash === '#/letters') {
-      view.innerHTML = renderAllLetters();
-      document.title = "Alifbo — Izoh";
       window.scrollTo(0, 0);
       return;
     }
@@ -245,44 +186,10 @@ async function route() {
       return;
     }
 
-    if (hash.startsWith('#/letter/')) {
-      const letter = decodeURIComponent(hash.slice(9));
-      highlightActiveLetter(letter);
-      const recs = await loadLetter(letter);
-      view.innerHTML = renderLetterPage(letter, recs);
-      document.title = `${letter} harfi — Izoh`;
-      window.scrollTo(0, 0);
-      return;
-    }
-
     view.innerHTML = renderHome();
   } catch (e) {
     view.innerHTML = `<p class="loading">Xato: ${esc(e.message)}</p>`;
   }
-}
-
-function highlightActiveLetter(letter) {
-  document.querySelectorAll('#letters a').forEach(a => {
-    a.classList.toggle('active', a.dataset.letter === letter);
-  });
-}
-
-function highlightBottomNav(hash) {
-  document.querySelectorAll('.bottom-bar a').forEach(a => {
-    const nav = a.dataset.nav;
-    let active = false;
-    if (nav === 'home' && (hash === '#/' || hash === '' || hash.startsWith('#/word/'))) active = true;
-    if (nav === 'letters' && (hash === '#/letters' || hash.startsWith('#/letter/'))) active = true;
-    a.classList.toggle('active', active);
-  });
-}
-
-async function buildLettersNav() {
-  await loadLetters();
-  const nav = document.getElementById('letters');
-  nav.innerHTML = LETTERS.map(l =>
-    `<a href="#/letter/${encodeURIComponent(l.letter)}" data-letter="${esc(l.letter)}" title="${l.count} so'z">${esc(l.letter)}</a>`
-  ).join('');
 }
 
 // === Search / autocomplete ===
@@ -390,34 +297,6 @@ function setupSearch() {
   }
 }
 
-function randomGo() {
-  if (!INDEX.length) return;
-  const w = INDEX[Math.floor(Math.random() * INDEX.length)];
-  location.hash = '#/word/' + encodeURIComponent(w);
-}
-
-function setupRandom() {
-  const bottomBtn = document.getElementById('random-btn');
-  const topBtn = document.getElementById('random-btn-top');
-  if (bottomBtn) bottomBtn.addEventListener('click', randomGo);
-  if (topBtn) topBtn.addEventListener('click', randomGo);
-  // delegated: home page CTA (rendered later)
-  document.addEventListener('click', e => {
-    if (e.target.closest('#home-random-cta')) {
-      e.preventDefault();
-      randomGo();
-    }
-  });
-  // keyboard shortcut "R"
-  document.addEventListener('keydown', e => {
-    if (e.key === 'r' && !e.ctrlKey && !e.metaKey && !e.altKey &&
-        document.activeElement.tagName !== 'INPUT' &&
-        document.activeElement.tagName !== 'TEXTAREA') {
-      randomGo();
-    }
-  });
-}
-
 // === Service Worker (PWA) ===
 function setupSW() {
   if (!('serviceWorker' in navigator)) return;
@@ -446,10 +325,9 @@ function setupSW() {
 
 // === Init ===
 async function init() {
-  setupRandom();
   setupSearch();
   setupSW();
-  await Promise.all([loadIndex(), buildLettersNav()]);
+  await loadIndex();
   window.addEventListener('hashchange', route);
   route();
 }
