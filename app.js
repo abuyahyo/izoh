@@ -115,9 +115,14 @@ function renderNotFound(word) {
 function renderWord(rec) {
   const wd = rec.word;
 
-  const meaningsHtml = (rec.meanings || []).map(m => {
-    const { marker, rest } = splitDefMarker(m.definition || '');
+  const meanings = rec.meanings || [];
+  const multi = meanings.length > 1;
+  const meaningsHtml = meanings.map((m, i) => {
+    // Strip leading "1. ", "2. " numbering from source text — shown as a badge instead
+    const def = (m.definition || '').replace(/^\s*\d+\.\s*/, '');
+    const { marker, rest } = splitDefMarker(def);
     return `<div class="meaning">
+      ${multi ? `<span class="meaning-num">${i + 1}</span>` : ''}
       <p class="meaning-def">${marker ? `<span class="marker">${esc(marker)}</span>` : ''}${esc(rest)}</p>
     </div>`;
   }).join('');
