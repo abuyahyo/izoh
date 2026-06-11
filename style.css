@@ -126,56 +126,6 @@ main {
   color: #94a3b8;
 }
 
-/* === Home === */
-.home-hero {
-  background: #fff7ed;
-  border-radius: 16px;
-  padding: 28px 24px;
-  text-align: center;
-  margin-bottom: 24px;
-}
-.home-hero h1 {
-  margin: 0 0 8px;
-  font-size: 26px;
-  color: #1f2937;
-}
-.home-hero p {
-  margin: 0;
-  color: #475569;
-  font-size: 15px;
-}
-.home-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin: 20px 0;
-}
-.stat-card {
-  background: #fff7ed;
-  border-radius: 12px;
-  padding: 18px 12px;
-  text-align: center;
-}
-.stat-card .num {
-  display: block;
-  font-size: 24px;
-  font-weight: 700;
-  color: #b45309;
-}
-.stat-card .lbl {
-  display: block;
-  font-size: 12px;
-  color: #78716c;
-  margin-top: 4px;
-}
-.home-tip {
-  background: #f0f9ff;
-  border-radius: 12px;
-  padding: 16px;
-  color: #075985;
-  font-size: 14px;
-  text-align: center;
-}
 /* === Word page === */
 .word-page {
   background: #fff7ed;
