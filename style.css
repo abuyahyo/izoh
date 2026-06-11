@@ -304,36 +304,6 @@ main {
 }
 .idiom .meaning-examples { padding-left: 24px; }
 
-/* === Share === */
-.share {
-  display: flex;
-  gap: 10px;
-  margin-top: 28px;
-  flex-wrap: wrap;
-  padding-top: 20px;
-  border-top: 1px solid rgba(0,0,0,.08);
-}
-.share a, .share button {
-  flex: 1;
-  min-width: 110px;
-  padding: 12px 14px;
-  border-radius: 10px;
-  text-align: center;
-  font-weight: 600;
-  color: white;
-  text-decoration: none;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-.share a:hover, .share button:hover { text-decoration: none; opacity: .92; }
-.share .tg { background: #229ED9; }
-.share .wa { background: #25D366; }
-.share .copy { background: #64748b; }
-.share .source { background: transparent; color: #0284c7; border: 1px solid #bae6fd; }
-
 /* === Letters section === */
 .letters-section {
   margin: 32px 0 16px;
