@@ -301,8 +301,27 @@ function setupSW() {
   });
 }
 
+// === Theme (tungi/tongi rejim) ===
+function setupTheme() {
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  // Foydalanuvchi qo'lda tanlamagan bo'lsa, tizim o'zgarishiga ergashadi
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  mq.addEventListener('change', e => {
+    if (localStorage.getItem('theme') !== 'light' && localStorage.getItem('theme') !== 'dark') {
+      document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+    }
+  });
+  btn.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+}
+
 // === Init ===
 async function init() {
+  setupTheme();
   setupSearch();
   setupSW();
   await loadIndex();

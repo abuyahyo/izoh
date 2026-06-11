@@ -230,51 +230,72 @@ footer {
 }
 
 /* === Tungi rejim (dark mode) === */
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #1a1715;
-    color: #e7e5e4;
-  }
-  a { color: #38bdf8; }
-
-  header {
-    background: #1a1715;
-    border-bottom-color: #292524;
-  }
-  .logo { color: #fafaf9; }
-  .logo-text { color: #d6d3d1; }
-
-  #search {
-    background: #262220;
-    border-color: #3f3a36;
-    color: #e7e5e4;
-  }
-  #search:focus {
-    border-color: #0ea5e9;
-    box-shadow: 0 0 0 3px rgba(14, 165, 233, .18);
-  }
-  #search::placeholder { color: #8b8580; }
-  #search-btn { color: #a8a29e; }
-
-  #suggestions {
-    background: #262220;
-    border-color: #3f3a36;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, .4);
-  }
-  #suggestions li:hover, #suggestions li.active {
-    background: #3a2f1f;
-    color: #fbbf24;
-  }
-
-  .word-page { background: #262220; }
-  .word-page h1 { color: #fafaf9; }
-  .word-page .pos { color: #a8a29e; }
-  .meaning + .meaning { border-top-color: rgba(251, 191, 36, .18); }
-  .meaning-def { color: #e7e5e4; }
-  .meaning-def .marker { color: #a8a29e; }
-
-  .not-found { color: #a8a29e; }
-  .not-found h1 { color: #fafaf9; }
-
-  footer { color: #78716c; }
+/* JS html[data-theme] ni o'rnatadi (saqlangan tanlov yoki tizim sozlamasi). */
+[data-theme="dark"] body {
+  background: #1a1715;
+  color: #e7e5e4;
 }
+[data-theme="dark"] a { color: #38bdf8; }
+
+[data-theme="dark"] header {
+  background: #1a1715;
+  border-bottom-color: #292524;
+}
+[data-theme="dark"] .logo { color: #fafaf9; }
+[data-theme="dark"] .logo-text { color: #d6d3d1; }
+
+[data-theme="dark"] #search {
+  background: #262220;
+  border-color: #3f3a36;
+  color: #e7e5e4;
+}
+[data-theme="dark"] #search:focus {
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, .18);
+}
+[data-theme="dark"] #search::placeholder { color: #8b8580; }
+[data-theme="dark"] #search-btn { color: #a8a29e; }
+
+[data-theme="dark"] #suggestions {
+  background: #262220;
+  border-color: #3f3a36;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .4);
+}
+[data-theme="dark"] #suggestions li:hover,
+[data-theme="dark"] #suggestions li.active {
+  background: #3a2f1f;
+  color: #fbbf24;
+}
+
+[data-theme="dark"] .word-page { background: #262220; }
+[data-theme="dark"] .word-page h1 { color: #fafaf9; }
+[data-theme="dark"] .word-page .pos { color: #a8a29e; }
+[data-theme="dark"] .meaning + .meaning { border-top-color: rgba(251, 191, 36, .18); }
+[data-theme="dark"] .meaning-def { color: #e7e5e4; }
+[data-theme="dark"] .meaning-def .marker { color: #a8a29e; }
+
+[data-theme="dark"] .not-found { color: #a8a29e; }
+[data-theme="dark"] .not-found h1 { color: #fafaf9; }
+
+[data-theme="dark"] footer { color: #78716c; }
+
+/* === Rejim almashtirish tugmasi === */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  color: #6b7280;
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: background .15s, color .15s;
+}
+.theme-toggle:hover { background: #f1f5f9; color: #b45309; }
+.theme-toggle .icon-moon { display: none; }
+.theme-toggle .icon-sun { display: block; }
+[data-theme="dark"] .theme-toggle { color: #d6d3d1; }
+[data-theme="dark"] .theme-toggle:hover { background: #292524; color: #fbbf24; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
