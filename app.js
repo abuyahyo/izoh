@@ -85,10 +85,6 @@ function esc(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-function fmtNum(n) {
-  return n.toLocaleString('uz').replace(/,/g, ' ');
-}
-
 // Split italic-marker prefixes ("aynan ", "ay. ", "kam ishl. " etc.) from definition
 const DEF_MARKERS = ['aynan ', 'ay. ', 'kam ishl. ', 'q. ', 'qar. '];
 function splitDefMarker(def) {
@@ -102,30 +98,7 @@ function splitDefMarker(def) {
 
 // === Renderers ===
 function renderHome() {
-  const idiomCount = 7791; // from stats; harmless static
-  return `
-    <div class="home-hero">
-      <h1>O‘zbek tilining izohli lug‘ati</h1>
-      <p>So‘zlarni qidiring, ma'nolarini va misollarini o‘rganing</p>
-    </div>
-    <div class="home-stats">
-      <div class="stat-card">
-        <span class="num">${fmtNum(35491)}</span>
-        <span class="lbl">so‘z</span>
-      </div>
-      <div class="stat-card">
-        <span class="num">${fmtNum(50932)}</span>
-        <span class="lbl">izoh</span>
-      </div>
-      <div class="stat-card">
-        <span class="num">${fmtNum(idiomCount)}</span>
-        <span class="lbl">ibora</span>
-      </div>
-    </div>
-    <p class="home-tip">
-      Yuqoridagi maydondan so‘z qidiring.
-    </p>
-  `;
+  return '';
 }
 
 function renderNotFound(word) {
