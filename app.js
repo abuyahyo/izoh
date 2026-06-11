@@ -170,25 +170,11 @@ function renderWord(rec) {
     </div>`;
   }).join('');
 
-  const idiomsHtml = (rec.idioms && rec.idioms.length) ? `
-    <div class="idioms-section">
-      <h2>${esc(wd.toUpperCase())} so‘zi qatnashgan iboralar</h2>
-      ${rec.idioms.map(id => {
-        const { marker, rest } = splitDefMarker(id.definition || '');
-        return `<div class="idiom">
-          <p class="idiom-phrase">${esc(id.phrase)}</p>
-          ${rest ? `<p class="idiom-def">${marker ? `<span class="marker" style="font-style:italic;color:#78716c;">${esc(marker)} </span>` : ''}${esc(rest)}</p>` : ''}
-          ${renderExamplesList(id.examples)}
-        </div>`;
-      }).join('')}
-    </div>` : '';
-
   return `
     <article class="word-page">
       <h1>${esc(wd)}</h1>
       ${rec.part_of_speech ? `<p class="pos">${esc(rec.part_of_speech)}</p>` : ''}
       ${meaningsHtml || '<p style="color:#78716c;">Bu so‘z uchun izoh hali kiritilmagan.</p>'}
-      ${idiomsHtml}
     </article>
   `;
 }

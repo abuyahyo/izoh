@@ -270,34 +270,6 @@ main {
   margin-left: 4px;
 }
 
-/* === Idioms === */
-.idioms-section { margin-top: 28px; }
-.idioms-section h2 {
-  font-size: 15px;
-  color: #57534e;
-  margin: 0 0 14px;
-  text-transform: lowercase;
-  font-weight: 700;
-}
-.idiom {
-  background: rgba(0,0,0,.05);
-  border-radius: 12px;
-  padding: 16px 20px;
-  margin-bottom: 12px;
-}
-.idiom-phrase {
-  font-weight: 700;
-  color: #1c1917;
-  margin: 0 0 6px;
-  font-size: 15px;
-}
-.idiom-def {
-  margin: 0 0 8px;
-  color: #44403c;
-  font-size: 15px;
-}
-.idiom .meaning-examples { padding-left: 24px; }
-
 /* === Letters section === */
 .letters-section {
   margin: 32px 0 16px;
