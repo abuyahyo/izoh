@@ -185,9 +185,6 @@ function renderWord(rec) {
 
   return `
     <article class="word-page">
-      <div class="word-header">
-        <strong>Izoh</strong> · ${esc(wd)} so‘zining izohi va ma'nolari
-      </div>
       <h1>${esc(wd)}</h1>
       ${rec.part_of_speech ? `<p class="pos">${esc(rec.part_of_speech)}</p>` : ''}
       ${meaningsHtml || '<p style="color:#78716c;">Bu so‘z uchun izoh hali kiritilmagan.</p>'}
