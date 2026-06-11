@@ -159,7 +159,7 @@ main {
 }
 .meaning:last-of-type { margin-bottom: 0; }
 .meaning-def {
-  font-weight: 700;
+  font-weight: 400;
   margin: 0 0 8px;
   color: #1c1917;
   font-size: 16px;
