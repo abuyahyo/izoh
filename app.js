@@ -319,10 +319,22 @@ function setupTheme() {
   });
 }
 
+// === Random word ===
+function setupRandom() {
+  const btn = document.getElementById('random-btn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    if (!INDEX.length) return;
+    const word = INDEX[Math.floor(Math.random() * INDEX.length)];
+    location.hash = '#/word/' + encodeURIComponent(word);
+  });
+}
+
 // === Init ===
 async function init() {
   setupTheme();
   setupSearch();
+  setupRandom();
   setupSW();
   await loadIndex();
   window.addEventListener('hashchange', route);

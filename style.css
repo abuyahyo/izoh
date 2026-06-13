@@ -279,6 +279,22 @@ footer {
 
 [data-theme="dark"] footer { color: #78716c; }
 
+/* === Tasodifiy so'z tugmasi === */
+.random-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  color: #6b7280;
+  flex-shrink: 0;
+  transition: background .15s, color .15s;
+}
+.random-btn:hover { background: #f1f5f9; color: #b45309; }
+[data-theme="dark"] .random-btn { color: #d6d3d1; }
+[data-theme="dark"] .random-btn:hover { background: #292524; color: #fbbf24; }
+
 /* === Rejim almashtirish tugmasi === */
 .theme-toggle {
   display: inline-flex;
