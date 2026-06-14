@@ -110,6 +110,14 @@ C:\Users\abu_y\izoh\
 ### [x] 9. Cleanup
 - [x] `data/index_ocr.json`, `data/izoh_ocr.min.json`, `build/parse_ocr.py` o'chirildi
 
+### [x] 10. Lotin/Kirill rejim almashtirish
+- [x] `latToCyr()` funksiyasi (Latin->Cyrillic reverse conversion)
+- [x] `index.html` da "Ў"/"O'" tugmasi (theme toggle yonida)
+- [x] `style.css` da `.script-toggle` stillari
+- [x] `renderWord()` da `toScript()` qo'llash
+- [x] `localStorage` da saqlash
+- [x] `data-script` atributi orqali CSS
+
 ## Qoldiq ishlar / Kamchiliklar
 - ~43 ta entryda `]` ham `|` ham yo'q (OCR butunlay yo'qotgan) — etimologiyasiz qoladi. Ro'yxat: `abjad`, `alpi-salpi`, `axta`, `bardor`, `bargak`, `bargizub`, `benaf`, `chakana`, `daraxtzor`, `faiton`, `gap`, `hijriy`, `hovuzcha`, `hurmattalab`, `izzattalab`, `kapsula`, `lek`, `lola`, `lom`, `loyqalanmoq`, `lozim`, `mil`, `naqshband`, `nomma-nom`, `odamshavanda`, `ojiza`, `partov`, `rezavor`, `riyokorona`, `sari`, `shingarf`, `shirchoy`, `tanketka`, `tevana`, `tezak`, `tikkama-tikka`, `tol`, `tuz`, `uskuna`, `xo'jasavdogar`, `yosmin`, `yotoqxona`, `yumsharmoq`
 - 2 ta so'z data da yo'q: `bo'lish`, `na'matak` (vowel filter? yoki boshqa)

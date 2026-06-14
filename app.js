@@ -51,6 +51,60 @@ async function findWord(word) {
   return recs.find(r => (r.word || '').toLocaleLowerCase('uz') === wLower) || null;
 }
 
+// === Script toggle ===
+let SCRIPT = 'lotin'; // 'lotin' or 'kiril'
+
+function getScript() { return SCRIPT; }
+
+// === Latin -> Cyrillic (reverse map) ===
+const LAT_CYR_MAP = {
+  'shch':'щ', 'Shch':'Щ', 'yo':'ё', 'Yo':'Ё',
+  'yu':'ю', 'Yu':'Ю', 'ya':'я', 'Ya':'Я',
+  'ch':'ч', 'Ch':'Ч', 'sh':'ш', 'Sh':'Ш',
+  'o\'':'ў', 'O\'':'Ў', 'g\'':'ғ', 'G\'':'Ғ',
+  'a':'а','A':'А','b':'б','B':'Б','d':'д','D':'Д',
+  'e':'е','E':'Е','f':'ф','F':'Ф','g':'г','G':'Г',
+  'h':'ҳ','H':'Ҳ','i':'и','I':'И','j':'ж','J':'Ж',
+  'k':'к','K':'К','l':'л','L':'Л','m':'м','M':'М',
+  'n':'н','N':'Н','o':'о','O':'О','p':'п','P':'П',
+  'q':'қ','Q':'Қ','r':'р','R':'Р','s':'с','S':'С',
+  't':'т','T':'Т','u':'у','U':'У','v':'в','V':'В',
+  'x':'х','X':'Х','y':'й','Y':'Й','z':'з','Z':'З',
+  '’':'ъ',"'":'ъ',
+};
+
+// Multi-char keys sorted by length desc for greedy matching
+const LAT_CYR_KEYS = Object.keys(LAT_CYR_MAP)
+  .filter(k => k.length > 1 || (k.length === 1 && k !== k.toLowerCase()))
+  .sort((a, b) => b.length - a.length);
+const LAT_CYR_SINGLE = Object.fromEntries(
+  Object.entries(LAT_CYR_MAP).filter(([k]) => k.length === 1 && k === k.toLowerCase())
+);
+
+function latToCyr(s) {
+  if (!s) return '';
+  // Apostrophe variants: normalize to simple '
+  s = s.replace(/[ʻʼ‘’]/g, "'");
+  // Match multi-char sequences first (case-insensitive for some)
+  let out = '', i = 0;
+  while (i < s.length) {
+    let matched = false;
+    for (const key of LAT_CYR_KEYS) {
+      if (s.slice(i, i + key.length) === key) {
+        out += LAT_CYR_MAP[key];
+        i += key.length;
+        matched = true;
+        break;
+      }
+    }
+    if (matched) continue;
+    const ch = s[i];
+    out += LAT_CYR_MAP[ch] || ch;
+    i++;
+  }
+  return out;
+}
+
 // === Cyrillic -> Latin (O'zbek alifbosi) ===
 const CYR_MAP = {
   // multi-char first (di-graphs)
@@ -158,26 +212,32 @@ function renderNotFound(word) {
   `;
 }
 
+function toScript(s) {
+  return SCRIPT === 'kiril' ? latToCyr(s) : s;
+}
+
 function renderWord(rec) {
-  const wd = rec.word;
+  const wd = toScript(rec.word);
 
   const meanings = rec.meanings || [];
   const multi = meanings.length > 1;
   const meaningsHtml = meanings.map((m, i) => {
-    // Strip leading "1. ", "2. " numbering from source text — shown as a badge instead
     const def = (m.definition || '').replace(/^\s*\d+\.\s*/, '');
     const { marker, rest } = splitDefMarker(def);
     return `<div class="meaning">
       ${multi ? `<span class="meaning-num">${i + 1}</span>` : ''}
-      <p class="meaning-def">${marker ? `<span class="marker">${esc(marker)}</span>` : ''}${esc(rest)}</p>
+      <p class="meaning-def">${marker ? `<span class="marker">${esc(toScript(marker))}</span>` : ''}${esc(toScript(rest))}</p>
     </div>`;
   }).join('');
+
+  const pos = rec.part_of_speech ? toScript(rec.part_of_speech) : '';
+  const etym = rec.etymology ? toScript(expandEtym(rec.etymology)) : '';
 
   return `
     <article class="word-page">
       <h1>${esc(wd)}</h1>
-      ${rec.part_of_speech ? `<p class="pos">${esc(rec.part_of_speech)}</p>` : ''}
-      ${rec.etymology ? `<p class="etymology">${esc(expandEtym(rec.etymology))}</p>` : ''}
+      ${pos ? `<p class="pos">${esc(pos)}</p>` : ''}
+      ${etym ? `<p class="etymology">${esc(etym)}</p>` : ''}
       ${meaningsHtml || '<p style="color:#78716c;">Bu so‘z uchun izoh hali kiritilmagan.</p>'}
     </article>
   `;
@@ -366,6 +426,34 @@ function setupTheme() {
   });
 }
 
+// === Script toggle ===
+function setupScript() {
+  const btn = document.getElementById('script-toggle');
+  if (!btn) return;
+
+  function apply() {
+    document.documentElement.setAttribute('data-script', SCRIPT);
+    btn.setAttribute('aria-label', SCRIPT === 'kiril' ? 'Lotin rejimiga o\'tish' : 'Kirill rejimiga o\'tish');
+    btn.title = SCRIPT === 'kiril' ? 'Lotin rejimi' : 'Kirill rejimi';
+    // Re-render current page
+    route();
+  }
+
+  try {
+    const saved = localStorage.getItem('script');
+    if (saved === 'kiril' || saved === 'lotin') SCRIPT = saved;
+  } catch (e) {}
+
+  // Set initial state
+  document.documentElement.setAttribute('data-script', SCRIPT);
+
+  btn.addEventListener('click', () => {
+    SCRIPT = SCRIPT === 'kiril' ? 'lotin' : 'kiril';
+    try { localStorage.setItem('script', SCRIPT); } catch (e) {}
+    apply();
+  });
+}
+
 // === Random word ===
 function setupRandom() {
   const btn = document.getElementById('random-btn');
@@ -380,6 +468,7 @@ function setupRandom() {
 // === Init ===
 async function init() {
   setupTheme();
+  setupScript();
   setupSearch();
   setupRandom();
   setupSW();
