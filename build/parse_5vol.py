@@ -130,6 +130,51 @@ def extract_etymology(line: str) -> tuple:
     return (line, None)
 
 
+CYR_ETYM_ABBR = {
+    'араб.': 'арабча ', 'ар.': 'арабча ',
+    'а.': 'арабча ',
+    'фарс.': 'форсча ', 'форс.': 'форсча ',
+    'ф.': 'форсча ',
+    'инглиз.': 'инглизча ', 'инг.': 'инглизча ',
+    'рус.': 'русча ',
+    'лотин.': 'лотинча ', 'лот.': 'лотинча ', 'л.': 'лотинча ',
+    'юнон.': 'юнонча ', 'ю.': 'юнонча ',
+    'немис.': 'немисча ', 'нем.': 'немисча ',
+    'француз.': 'французча ', 'фр.': 'французча ',
+    'италян.': 'италянча ', 'итал.': 'италянча ', 'ит.': 'италянча ',
+    'испан.': 'испанча ', 'исп.': 'испанча ',
+    'португал.': 'португалча ', 'порт.': 'португалча ',
+    'голланд.': 'голландча ', 'гол.': 'голландча ',
+    'турк.': 'туркча ', 'тур.': 'туркча ',
+    'хитой.': 'хитойча ', 'хит.': 'хитойча ', 'кит.': 'хитойча ',
+    'япон.': 'японча ', 'яп.': 'японча ',
+    'санскрит.': 'санскритча ', 'сан.': 'санскритча ',
+    'еврей.': 'еврейча ', 'евр.': 'еврейча ',
+    'швед.': 'шведча ',
+    'поляк.': 'полякча ', 'поль.': 'полякча ',
+    'чех.': 'чехча ',
+    'славян.': 'славянча ', 'сл.': 'славянча ',
+    'арамей.': 'арамейча ', 'арам.': 'арамейча ',
+    'норвег.': 'норвегча ', 'норв.': 'норвегча ',
+    'дат.': 'датча ',
+    'мажар.': 'мажарча ', 'венг.': 'мажарча ',
+    'монгол.': 'монголча ', 'мон.': 'монголча ',
+    'перс.': 'персча ',
+    'тожик.': 'тожикча ', 'тож.': 'тожикча ',
+    'қадимги ': 'қад. ',
+    'сом.': 'сомонича ',
+    'бар.': 'бару ',
+}
+
+def expand_abbr_cyr(s: str) -> str:
+    """Expand etymology abbreviations from Cyrillic to full forms."""
+    if not s:
+        return s
+    # Sort by length descending to match longer abbreviations first
+    for abbr, full in sorted(CYR_ETYM_ABBR.items(), key=lambda x: -len(x[0])):
+        s = s.replace(abbr, full)
+    return s
+
 def extract_etymology_full(text: str) -> tuple:
     """Extract etymology from full entry text, handling multi-line [...] brackets.
     Falls back to '|' as closing bracket (OCR misread ']' as '|')."""
@@ -197,7 +242,7 @@ def parse_entries(text: str) -> list:
         if not current_entry.get('etymology'):
             cleaned_text, etymology = extract_etymology_full(full_text)
             if etymology:
-                current_entry['etymology'] = etymology
+                current_entry['etymology'] = cyr_to_lat(expand_abbr_cyr(etymology))
                 full_text = cleaned_text
         meanings, idioms = parse_meanings_idioms(full_text, current_entry['hw_lat'])
         current_entry['meanings'] = meanings
@@ -247,7 +292,7 @@ def parse_entries(text: str) -> list:
                 'part_of_speech': pos,
                 'meanings': [],
                 'idioms': [],
-                'etymology': etymology or '',
+                'etymology': cyr_to_lat(expand_abbr_cyr(etymology)) if etymology else '',
                 'text_start': rest,
             }
             current_text_lines = [rest] if rest else []
@@ -423,11 +468,12 @@ def merge_with_existing(new_entries: list, existing_data: dict) -> dict:
             out_entry['etymology'] = ew
         
         if w in existing_words:
-            # Update existing entry's etymology if OCR has it
+            # Update existing entry's etymology with improved OCR version
             if ew:
                 for rec in result[letter]:
                     if rec.get('word', '').lower().strip() == w:
-                        if not rec.get('etymology'):
+                        old_etym = rec.get('etymology', '')
+                        if old_etym != ew:
                             rec['etymology'] = ew
                             updated += 1
                         break

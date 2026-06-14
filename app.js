@@ -78,6 +78,52 @@ function cyrToLat(s) {
   return out;
 }
 
+// Expand etymology abbreviations (Latin forms, after Cyrillic->Latin conversion)
+const ETYM_ABBR = [
+  ['arab.', 'arabcha '], ['a.', 'arabcha '],
+  ['fors.', 'forscha '], ['fars.', 'forscha '], ['f.', 'forscha '],
+  ['ingliz.', 'inglizcha '], ['ing.', 'inglizcha '],
+  ['rus.', 'ruscha '],
+  ['lotin.', 'lotincha '], ['lot.', 'lotincha '], ['l.', 'lotincha '],
+  ['yunon.', 'yunoncha '], ['yun.', 'yunoncha '],
+  ['nemis.', 'nemischa '], ['nem.', 'nemischa '],
+  ['fransuz.', 'fransuzcha '], ['fr.', 'fransuzcha '],
+  ['italyan.', 'italyancha '], ['ital.', 'italyancha '], ['it.', 'italyancha '],
+  ['ispan.', 'ispancha '], ['isp.', 'ispancha '],
+  ['portugal.', 'portugalcha '], ['port.', 'portugalcha '],
+  ['golland.', 'gollandcha '], ['gol.', 'gollandcha '],
+  ['turk.', 'turkcha '],
+  ['xitoy.', 'xitoycha '], ['xit.', 'xitoycha '],
+  ['yapon.', 'yaponcha '], ['yap.', 'yaponcha '],
+  ['sanskrit.', 'sanskritcha '], ['sansk.', 'sanskritcha '],
+  ['yevrey.', 'yevreyche '], ['yevr.', 'yevreyche '],
+  ['shved.', 'shvedcha '],
+  ['polyak.', 'polyakcha '], ['poly.', 'polyakcha '],
+  ['chex.', 'chexcha '],
+  ['slavyan.', 'slavyancha '], ['slav.', 'slavyancha '],
+  ['aramey.', 'arameycha '], ['aram.', 'arameycha '],
+  ['norveg.', 'norvegcha '], ['norv.', 'norvegcha '],
+  ['dat.', 'datcha '],
+  ['majar.', 'majarcha '], ['venger.', 'majarcha '],
+  ['mongol.', 'mongolcha '], ['mong.', 'mongolcha '],
+  ['pers.', 'perscha '],
+  ['tojik.', 'tojikcha '], ['toj.', 'tojikcha '],
+  ['qadimgi ', 'qad. '],
+  ['somon.', 'somoniy '],
+];
+function expandEtym(s) {
+  if (!s) return '';
+  // First convert any remaining Cyrillic to Latin
+  s = cyrToLat(s);
+  // Sort by length desc to match longer abbrs first
+  const sorted = [...ETYM_ABBR].sort((a, b) => b[0].length - a[0].length);
+  for (const [abbr, full] of sorted) {
+    const escaped = abbr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    s = s.replace(new RegExp(`(^|[\\s;,(])${escaped}`, 'g'), '$1' + full);
+  }
+  return s;
+}
+
 // === Utils ===
 function esc(s) {
   return String(s == null ? '' : s)
@@ -131,7 +177,7 @@ function renderWord(rec) {
     <article class="word-page">
       <h1>${esc(wd)}</h1>
       ${rec.part_of_speech ? `<p class="pos">${esc(rec.part_of_speech)}</p>` : ''}
-      ${rec.etymology ? `<p class="etymology">${esc(rec.etymology)}</p>` : ''}
+      ${rec.etymology ? `<p class="etymology">${esc(expandEtym(rec.etymology))}</p>` : ''}
       ${meaningsHtml || '<p style="color:#78716c;">Bu so‘z uchun izoh hali kiritilmagan.</p>'}
     </article>
   `;

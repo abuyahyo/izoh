@@ -12,8 +12,6 @@ C:\Users\abu_y\izoh\
 ├── data/               # bo'lingan ma'lumotlar
 │   ├── index.json      # 51,137 so'z ro'yxati (autocomplete uchun)
 │   ├── letters.json    # harflar manifesti
-│   ├── index_ocr.json  # OCR dan olingan so'zlar indeksi
-│   ├── izoh_ocr.min.json # OCR dan olingan to'liq ma'lumotlar
 │   └── <HARF>.json     # har bir harf bo'yicha to'liq yozuvlar (28 fayl)
 ├── build/
 │   ├── split.py        # JSON -> harf bo'yicha bo'lish
@@ -54,10 +52,11 @@ C:\Users\abu_y\izoh\
 - **Parser chiqardi**: 32,658 entry (44 ta abbreviaturalar filtrlangan)
 - **Merged**: ~15,650 yangi so'z qo'shildi (dublikatlar chiqarib tashlandi)
 - **Jami**: **51,137 so'z** (mavjud 35,491 → yangi 51,137)
-- **Etimologiya**: 11,608 ta mavjud so'zga etimologiya qo'shildi (merge fix dan keyin)
-- **etymology** maydoni endi barcha yozuvlarda saqlanadi
-- **app.js**: `renderWord()` ga etymology ko'rsatish qo'shildi
+- **Etimologiya**: 11,620 ta mavjud so'zga etimologiya qo'shildi
+- **etymology** maydoni endi Lotin alifbosida, qisqartmalar to'liq yozilgan holda
+- **app.js**: `renderWord()` ga etymology ko'rsatish + `expandEtym()` qisqartma yoyish
 - **style.css**: `.etymology` klassi (light + dark mode)
+- **Qisqartma yo'rish**: `а.`→`arabcha`, `ф.`→`forscha`, `инг.`→`inglizcha`, `рус.`→`ruscha`, `лот.`→`lotincha`, `ю.`→`yunoncha`, `нем.`→`nemischa`, `фр.`→`fransuzcha`, `ит.`→`italyancha`, va 30+ boshqa
 
 ## Bosqichlar
 
@@ -98,19 +97,26 @@ C:\Users\abu_y\izoh\
 
 ### [x] 7. Merge bug fix — etymology saqlanmayotgan edi
 - [x] `merge_with_existing()` da `out_entry` ga `etymology` qo'shildi
-- [x] Mavjud yozuvlarga OCR dan etimologiya ko'chirish (agar bo'sh bo'lsa)
+- [x] Mavjud yozuvlarga OCR dan etimologiya ko'chirish
 - [x] Re-run parser → 11,608 ta so'zga etimologiya qo'shildi
-- [ ] SW qayta qurish
+
+### [x] 8. Etimologiyani Lotin + qisqartmalarni yoyish
+- [x] `expand_abbr_cyr()` funksiyasi — 30+ Cyrillic qisqartmani to'liq yozadi
+- [x] `cyr_to_lat(expand_abbr_cyr(etymology))` — avval yoyish, keyin Lotin
+- [x] app.js da `expandEtym()` funksiyasi (zaxira sifatida)
+- [x] Re-run parser → 11,620 ta yangilandi
+- [x] SW qayta qurildi
+
+### [x] 9. Cleanup
+- [x] `data/index_ocr.json`, `data/izoh_ocr.min.json`, `build/parse_ocr.py` o'chirildi
 
 ## Qoldiq ishlar / Kamchiliklar
-- OCR `]` belgisini `|` (pipe) deb noto'g'ri tanigan → `extract_etymology_full()` da `|` ham qabul qilindi
 - ~43 ta entryda `]` ham `|` ham yo'q (OCR butunlay yo'qotgan) — etimologiyasiz qoladi. Ro'yxat: `abjad`, `alpi-salpi`, `axta`, `bardor`, `bargak`, `bargizub`, `benaf`, `chakana`, `daraxtzor`, `faiton`, `gap`, `hijriy`, `hovuzcha`, `hurmattalab`, `izzattalab`, `kapsula`, `lek`, `lola`, `lom`, `loyqalanmoq`, `lozim`, `mil`, `naqshband`, `nomma-nom`, `odamshavanda`, `ojiza`, `partov`, `rezavor`, `riyokorona`, `sari`, `shingarf`, `shirchoy`, `tanketka`, `tevana`, `tezak`, `tikkama-tikka`, `tol`, `tuz`, `uskuna`, `xo'jasavdogar`, `yosmin`, `yotoqxona`, `yumsharmoq`
-- 2 ta so'z data da yo'q: `bo'lish`, `na'matak`
+- 2 ta so'z data da yo'q: `bo'lish`, `na'matak` (vowel filter? yoki boshqa)
 - `ъ` (Cyrillic hard sign) → `'` (apostrophe) konvertatsiyasi ishlaydi
 - Mavjud data da `ъ` ishlatilgan (aъlo), OCR esa `аъло` → `a'lo` — bu ikki xil yozuv dublikat bo'lishi mumkin (kam sonli)
 - Idiomlarni alohida ajratish logikasi hali to'liq emas
 - Etimologiya matnidagi arabcha qismlar OCR da buzilgan (j,l,v,^ kabi belgilar bilan ifodalangan)
-- `bo'lish` va `na'matak` data da yo'q — sabab: vowel filter? yoki boshqa
 
 ## Eslatmalar
 - CLAUDE.md dagi ko'rsatmalarga amal qilish
