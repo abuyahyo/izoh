@@ -149,22 +149,27 @@ C:\Users\abu_y\izoh\
 - [x] **1277 ta yangi so'z** qo'shildi (11,347 dan 1449 tasi parse bo'ldi, 172 tasi dublikat)
 - [x] **43 ta sinonim/antonim** yozuvlari import qilindi (sinonim: 36, antonim: 7)
 - [x] **SW qayta qurildi** (CACHE_VERSION yangi hash; data fayllar hash ga qo'shildi build_sw.py)
-- [x] **Jami**: ~~51,137~~ → **52,414 so'z**
+- [x] **Jami**: ~~51,137~~ → ~~52,414~~ → **52,647 so'z**
 
-### [~] 15. Vikilug'at sinonim/antonim tozalash
+### [x] 15. Vikilug'at sinonim/antonim tozalash
 - [x] Parser tuzatildi: `==Tarjimalari==` (probelsiz sarlavha) formatini ham taniydi
 - [x] sinonim/antonim matnidagi `#`, `*`, `•` markerlari tozalanadi
 - [x] `app.js` + `style.css` ga sinonim/antonim ko'rsatish qo'shildi
-- [ ] Bazidagi noto'g'ri antonimlar (tashoq → "Nişanyan Sözlük", xoʻr → "Latta") — Vikilug'at ma'lumot sifatidan
+- [x] Bazidagi noto'g'ri antonimlar (tashoq → "Nişanyan Sözlük", xoʻr → "Latta") tozalandi
+
+### [x] 16. Duplikat tuzatish: ъ (Cyrillic hard sign) → ' (apostrophe)
+- [x] `app.js` da `findWord()` va `INDEX_LOWER` ga `cyrToLat()` qo'shildi — 370 ta `ъ`li so'z endi `'` bilan topiladi
 
 ## Qoldiq ishlar / Kamchiliklar
 - ~~43 ta entryda `]` ham `|` ham yo'q (OCR butunlay yo'qotgan)~~ → Vikilug'at orqali to'ldirildi
 - ~~2 ta so'z data da yo'q: `bo'lish`, `na'matak`~~ → Vikilug'at orqali qo'shildi
 - `ъ` (Cyrillic hard sign) → `'` (apostrophe) konvertatsiyasi ishlaydi
 - Mavjud data da `ъ` ishlatilgan (aъlo), OCR esa `аъло` → `a'lo` — bu ikki xil yozuv dublikat bo'lishi mumkin (kam sonli)
-- Idiomlarni alohida ajratish logikasi hali to'liq emas
+- **Idiomlarni ajratish** — `parse_5vol.py` da `split_into_idioms()` funksiyasi yozilgan, lekin ishlatilmagan. OCR dan qo'shilgan ~15k so'zda idiomlar ajratilmagan. Mavjud 3,577 idiom faqat asl izoh.uz manbasidan.
 - Etimologiya matnidagi arabcha qismlar OCR da buzilgan (j,l,v,^ kabi belgilar bilan ifodalangan)
 - Ayrim Vikilug'at antonimlari haqiqiy antonim emas (manba nomi yoki tarjima kabi)
+
+## Eslatmalar
 
 ## Eslatmalar
 - CLAUDE.md dagi ko'rsatmalarga amal qilish

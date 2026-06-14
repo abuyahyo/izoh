@@ -31,7 +31,7 @@ async function loadIndex() {
   if (INDEX.length) return;
   const r = await fetch(DATA + 'index.json');
   INDEX = await r.json();
-  INDEX_LOWER = INDEX.map(w => w.toLocaleLowerCase('uz'));
+  INDEX_LOWER = INDEX.map(w => cyrToLat(w).toLocaleLowerCase('uz'));
 }
 
 async function loadLetter(letter) {
@@ -48,7 +48,7 @@ async function findWord(word) {
   const letter = letterOf(w);
   const recs = await loadLetter(letter);
   const wLower = w.toLocaleLowerCase('uz');
-  return recs.find(r => (r.word || '').toLocaleLowerCase('uz') === wLower) || null;
+  return recs.find(r => cyrToLat(r.word || '').toLocaleLowerCase('uz') === wLower) || null;
 }
 
 // === Script toggle ===
