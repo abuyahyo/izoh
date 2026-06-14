@@ -403,28 +403,42 @@ def merge_with_existing(new_entries: list, existing_data: dict) -> dict:
     
     added = 0
     skipped = 0
+    updated = 0
     for entry in new_entries:
         w = entry.get('word', '').lower().strip()
         if not w:
             skipped += 1
             continue
-        if w in existing_words:
-            skipped += 1
-            continue
         
         letter = letter_of(w)
-        # Remove internal fields
         out_entry = {
             'word': entry['word'],
             'part_of_speech': entry['part_of_speech'],
             'meanings': entry['meanings'],
             'idioms': entry['idioms'],
         }
+        # Include etymology if present
+        ew = entry.get('etymology', '')
+        if ew:
+            out_entry['etymology'] = ew
+        
+        if w in existing_words:
+            # Update existing entry's etymology if OCR has it
+            if ew:
+                for rec in result[letter]:
+                    if rec.get('word', '').lower().strip() == w:
+                        if not rec.get('etymology'):
+                            rec['etymology'] = ew
+                            updated += 1
+                        break
+            skipped += 1
+            continue
+        
         result[letter].append(out_entry)
         existing_words.add(w)
         added += 1
     
-    return dict(result), added, skipped
+    return dict(result), added, skipped, updated
 
 
 VALID_LETTERS = {'A','B','Ch','D','E','F','G',"G'",'H','I','J','K','L','M','N','O',"O'",'P','Q','R','S','Sh','T','U','V','X','Y','Z'}
@@ -503,8 +517,8 @@ def main():
             print(f"    Loaded {len(data)} existing records for letter {letter}")
     
     print(f"\n[*] Merging...")
-    merged, added, skipped = merge_with_existing(entries, existing)
-    print(f"    Added: {added}, Skipped (exists): {skipped}")
+    merged, added, skipped, updated = merge_with_existing(entries, existing)
+    print(f"    Added: {added}, Skipped (exists): {skipped}, Updated (etym): {updated}")
     
     print("\n[*] Writing data files...")
     write_data_files(merged)

@@ -10,11 +10,14 @@ C:\Users\abu_y\izoh\
 ├── app.js              # router + search + render
 ├── style.css           # mobile-first stillar
 ├── data/               # bo'lingan ma'lumotlar
-│   ├── index.json      # 35,491 so'z ro'yxati (autocomplete uchun)
+│   ├── index.json      # 51,137 so'z ro'yxati (autocomplete uchun)
 │   ├── letters.json    # harflar manifesti
+│   ├── index_ocr.json  # OCR dan olingan so'zlar indeksi
+│   ├── izoh_ocr.min.json # OCR dan olingan to'liq ma'lumotlar
 │   └── <HARF>.json     # har bir harf bo'yicha to'liq yozuvlar (28 fayl)
 ├── build/
 │   ├── split.py        # JSON -> harf bo'yicha bo'lish
+│   ├── parse_5vol.py   # OCR faylni parser qilish + merge
 │   └── build_sw.py     # Service Worker qurish
 ├── icons/
 ├── manifest.json
@@ -51,7 +54,8 @@ C:\Users\abu_y\izoh\
 - **Parser chiqardi**: 32,658 entry (44 ta abbreviaturalar filtrlangan)
 - **Merged**: ~15,650 yangi so'z qo'shildi (dublikatlar chiqarib tashlandi)
 - **Jami**: **51,137 so'z** (mavjud 35,491 → yangi 51,137)
-- **Format**: mavjud SPA formatiga mos (28 harf fayli + index + letters)
+- **Etimologiya**: 11,608 ta mavjud so'zga etimologiya qo'shildi (merge fix dan keyin)
+- **etymology** maydoni endi barcha yozuvlarda saqlanadi
 - **app.js**: `renderWord()` ga etymology ko'rsatish qo'shildi
 - **style.css**: `.etymology` klassi (light + dark mode)
 
@@ -87,20 +91,30 @@ C:\Users\abu_y\izoh\
 - [x] letters.json ni yangilash
 - [x] Harf fayllarini minify qilish
 
-### [x] 6. Service Worker
+### [/] 6. Service Worker
 - [x] build_sw.py ishga tushirildi (CACHE_VERSION yangilandi)
 - [ ] Lokal test qilish (python -m http.server)
 - [ ] Git commit va push
 
+### [x] 7. Merge bug fix — etymology saqlanmayotgan edi
+- [x] `merge_with_existing()` da `out_entry` ga `etymology` qo'shildi
+- [x] Mavjud yozuvlarga OCR dan etimologiya ko'chirish (agar bo'sh bo'lsa)
+- [x] Re-run parser → 11,608 ta so'zga etimologiya qo'shildi
+- [ ] SW qayta qurish
+
 ## Qoldiq ishlar / Kamchiliklar
 - OCR `]` belgisini `|` (pipe) deb noto'g'ri tanigan → `extract_etymology_full()` da `|` ham qabul qilindi
-- ~73 ta entryda `]` ham `|` ham yo'q (OCR butunlay yo'qotgan) — etimologiyasiz qoladi
+- ~43 ta entryda `]` ham `|` ham yo'q (OCR butunlay yo'qotgan) — etimologiyasiz qoladi. Ro'yxat: `abjad`, `alpi-salpi`, `axta`, `bardor`, `bargak`, `bargizub`, `benaf`, `chakana`, `daraxtzor`, `faiton`, `gap`, `hijriy`, `hovuzcha`, `hurmattalab`, `izzattalab`, `kapsula`, `lek`, `lola`, `lom`, `loyqalanmoq`, `lozim`, `mil`, `naqshband`, `nomma-nom`, `odamshavanda`, `ojiza`, `partov`, `rezavor`, `riyokorona`, `sari`, `shingarf`, `shirchoy`, `tanketka`, `tevana`, `tezak`, `tikkama-tikka`, `tol`, `tuz`, `uskuna`, `xo'jasavdogar`, `yosmin`, `yotoqxona`, `yumsharmoq`
+- 2 ta so'z data da yo'q: `bo'lish`, `na'matak`
 - `ъ` (Cyrillic hard sign) → `'` (apostrophe) konvertatsiyasi ishlaydi
 - Mavjud data da `ъ` ishlatilgan (aъlo), OCR esa `аъло` → `a'lo` — bu ikki xil yozuv dublikat bo'lishi mumkin (kam sonli)
 - Idiomlarni alohida ajratish logikasi hali to'liq emas
+- Etimologiya matnidagi arabcha qismlar OCR da buzilgan (j,l,v,^ kabi belgilar bilan ifodalangan)
+- `bo'lish` va `na'matak` data da yo'q — sabab: vowel filter? yoki boshqa
 
 ## Eslatmalar
 - CLAUDE.md dagi ko'rsatmalarga amal qilish
 - Harf aniqlash mantig'i Python (split.py) va JS (app.js) da bir xil
 - Kyrill->Lotin konvertori app.js:55-79 dagi CYR_MAP ga mos bo'lishi kerak
 - SW yangilanishi uchun build_sw.py ishga tushirilishi shart
+- `parse_5vol.py` da `extract_etymology_full()` birinchi `[` dan keyin birinchi `]` yoki `|` ni qidiradi (re.DOTALL). `^` bilan boshlanish sharti bor — bu POS dan keyin kelgan `[` larni topolmasligi mumkin, lekin hozirgi flow da `[` har doim text_start boshida.
