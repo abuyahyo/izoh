@@ -130,9 +130,19 @@ C:\Users\abu_y\izoh\
 - [x] `setupScript()`, `setupTheme()`, `setupSize()` panelga moslandi
 - [x] Eski alohida tugmalar olib tashlandi
 
+## Yangi manba: uz.wiktionary.org
+
+### [x] 13. Vikilug'at API orqali etimologiya va ta'riflarni olish
+- [x] API format tahlili (action=parse, prop=text|categories)
+- [x] `build/wiktionary_parse.py` — parser: etimologiya, ta'rif, misol, sinonim, antonim
+- [x] 43 ta etimologiyasiz so'zdan 26 tasiga Vikilug'atdan etimologiya qo'shildi
+- [x] `build/merge_wiktionary_etym.py` — data fayllarga merge (Cyr→Lot konvert bilan)
+- [ ] `bo'lish` va `na'matak` ni Vikilug'atdan to'liq entry sifatida qo'shish
+- [ ] Sinonim/antonim ko'rsatish (app.js render)<br>`build/wiktionary_parse.py` da
+
 ## Qoldiq ishlar / Kamchiliklar
-- ~43 ta entryda `]` ham `|` ham yo'q (OCR butunlay yo'qotgan) — etimologiyasiz qoladi. Ro'yxat: `abjad`, `alpi-salpi`, `axta`, `bardor`, `bargak`, `bargizub`, `benaf`, `chakana`, `daraxtzor`, `faiton`, `gap`, `hijriy`, `hovuzcha`, `hurmattalab`, `izzattalab`, `kapsula`, `lek`, `lola`, `lom`, `loyqalanmoq`, `lozim`, `mil`, `naqshband`, `nomma-nom`, `odamshavanda`, `ojiza`, `partov`, `rezavor`, `riyokorona`, `sari`, `shingarf`, `shirchoy`, `tanketka`, `tevana`, `tezak`, `tikkama-tikka`, `tol`, `tuz`, `uskuna`, `xo'jasavdogar`, `yosmin`, `yotoqxona`, `yumsharmoq`
-- 2 ta so'z data da yo'q: `bo'lish`, `na'matak` (vowel filter? yoki boshqa)
+- ~~43 ta entryda `]` ham `|` ham yo'q (OCR butunlay yo'qotgan)~~ → Vikilug'at orqali to'ldiriladi
+- 2 ta so'z data da yo'q: `bo'lish`, `na'matak` (vowel filter? yoki boshqa) → Vikilug'at orqali qo'shiladi
 - `ъ` (Cyrillic hard sign) → `'` (apostrophe) konvertatsiyasi ishlaydi
 - Mavjud data da `ъ` ishlatilgan (aъlo), OCR esa `аъло` → `a'lo` — bu ikki xil yozuv dublikat bo'lishi mumkin (kam sonli)
 - Idiomlarni alohida ajratish logikasi hali to'liq emas
