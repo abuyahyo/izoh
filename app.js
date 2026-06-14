@@ -408,11 +408,35 @@ function setupSW() {
   });
 }
 
+// === Settings panel ===
+function setupSettings() {
+  const btn = document.getElementById('settings-btn');
+  const panel = document.getElementById('settings-panel');
+  if (!btn || !panel) return;
+
+  // Toggle panel
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = !panel.hidden;
+    panel.hidden = isOpen;
+    btn.classList.toggle('active', !isOpen);
+  });
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (panel.hidden) return;
+    const wrap = document.querySelector('.settings-wrap');
+    if (wrap && !wrap.contains(e.target)) {
+      panel.hidden = true;
+      btn.classList.remove('active');
+    }
+  });
+}
+
 // === Theme (tungi/tongi rejim) ===
 function setupTheme() {
   const btn = document.getElementById('theme-toggle');
   if (!btn) return;
-  // Foydalanuvchi qo'lda tanlamagan bo'lsa, tizim o'zgarishiga ergashadi
   const mq = window.matchMedia('(prefers-color-scheme: dark)');
   mq.addEventListener('change', e => {
     if (localStorage.getItem('theme') !== 'light' && localStorage.getItem('theme') !== 'dark') {
@@ -429,13 +453,15 @@ function setupTheme() {
 // === Script toggle ===
 function setupScript() {
   const btn = document.getElementById('script-toggle');
+  const label = document.getElementById('script-label');
+  const indicator = document.getElementById('scr-indicator');
   if (!btn) return;
 
   function apply() {
     document.documentElement.setAttribute('data-script', SCRIPT);
-    btn.setAttribute('aria-label', SCRIPT === 'kiril' ? 'Lotin rejimiga o\'tish' : 'Kirill rejimiga o\'tish');
-    btn.title = SCRIPT === 'kiril' ? 'Lotin rejimi' : 'Kirill rejimi';
-    // Re-render current page
+    const isKiril = SCRIPT === 'kiril';
+    if (label) label.textContent = isKiril ? 'Kirill' : 'Lotin';
+    if (indicator) indicator.textContent = isKiril ? 'Ў' : "O'";
     route();
   }
 
@@ -444,8 +470,8 @@ function setupScript() {
     if (saved === 'kiril' || saved === 'lotin') SCRIPT = saved;
   } catch (e) {}
 
-  // Set initial state
   document.documentElement.setAttribute('data-script', SCRIPT);
+  apply();
 
   btn.addEventListener('click', () => {
     SCRIPT = SCRIPT === 'kiril' ? 'lotin' : 'kiril';
@@ -456,11 +482,14 @@ function setupScript() {
 
 // === Font size ===
 const SIZES = ['small', 'medium', 'large'];
+const SIZE_LABELS = { small: 'Kichik', medium: "O'rtacha", large: 'Katta' };
 let FONT_SIZE = 'medium';
 
 function setupSize() {
-  const btn = document.getElementById('size-toggle');
-  if (!btn) return;
+  const dec = document.getElementById('size-dec');
+  const inc = document.getElementById('size-inc');
+  const label = document.getElementById('size-label');
+  if (!dec || !inc) return;
 
   try {
     const saved = localStorage.getItem('fontSize');
@@ -469,17 +498,27 @@ function setupSize() {
 
   function apply() {
     document.documentElement.setAttribute('data-font-size', FONT_SIZE);
-    btn.setAttribute('aria-label', 'Matn hajmi: ' + FONT_SIZE);
-    btn.title = 'Matn hajmi: ' + FONT_SIZE;
+    if (label) label.textContent = SIZE_LABELS[FONT_SIZE] || FONT_SIZE;
   }
 
   apply();
 
-  btn.addEventListener('click', () => {
+  dec.addEventListener('click', () => {
     const idx = SIZES.indexOf(FONT_SIZE);
-    FONT_SIZE = SIZES[(idx + 1) % SIZES.length];
-    try { localStorage.setItem('fontSize', FONT_SIZE); } catch (e) {}
-    apply();
+    if (idx > 0) {
+      FONT_SIZE = SIZES[idx - 1];
+      try { localStorage.setItem('fontSize', FONT_SIZE); } catch (e) {}
+      apply();
+    }
+  });
+
+  inc.addEventListener('click', () => {
+    const idx = SIZES.indexOf(FONT_SIZE);
+    if (idx < SIZES.length - 1) {
+      FONT_SIZE = SIZES[idx + 1];
+      try { localStorage.setItem('fontSize', FONT_SIZE); } catch (e) {}
+      apply();
+    }
   });
 }
 
@@ -499,6 +538,7 @@ async function init() {
   setupTheme();
   setupScript();
   setupSize();
+  setupSettings();
   setupSearch();
   setupRandom();
   setupSW();

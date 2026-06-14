@@ -304,8 +304,11 @@ footer {
 [data-theme="dark"] .random-btn { color: #d6d3d1; }
 [data-theme="dark"] .random-btn:hover { background: #292524; color: #fbbf24; }
 
-/* === Rejim almashtirish tugmasi === */
-.theme-toggle {
+/* === Sozlamalar tugmasi === */
+.settings-wrap {
+  position: relative;
+}
+.settings-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -314,60 +317,95 @@ footer {
   border-radius: 10px;
   color: #6b7280;
   flex-shrink: 0;
-  margin-left: auto;
   transition: background .15s, color .15s;
 }
-.theme-toggle:hover { background: #f1f5f9; color: #b45309; }
-.theme-toggle .icon-moon { display: none; }
-.theme-toggle .icon-sun { display: block; }
-[data-theme="dark"] .theme-toggle { color: #d6d3d1; }
-[data-theme="dark"] .theme-toggle:hover { background: #292524; color: #fbbf24; }
-[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
-[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+.settings-btn:hover { background: #f1f5f9; color: #b45309; }
+.settings-btn.active { background: #f1f5f9; color: #b45309; }
+[data-theme="dark"] .settings-btn { color: #d6d3d1; }
+[data-theme="dark"] .settings-btn:hover,
+[data-theme="dark"] .settings-btn.active { background: #292524; color: #fbbf24; }
 
-/* === Lotin/Kirill almashtirish tugmasi === */
-.script-toggle {
+.settings-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 240px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  z-index: 100;
+}
+[data-theme="dark"] .settings-panel {
+  background: #292524;
+  border-color: #44403c;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+.settings-item + .settings-item {
+  border-top: 1px solid #e5e7eb;
+}
+[data-theme="dark"] .settings-item + .settings-item {
+  border-color: #44403c;
+}
+.settings-label {
+  font-size: 14px;
+  color: #1f2937;
+}
+[data-theme="dark"] .settings-label {
+  color: #e7e5e4;
+}
+
+.theme-toggle-sm {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   color: #6b7280;
   flex-shrink: 0;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1;
   transition: background .15s, color .15s;
 }
-.script-toggle:hover { background: #f1f5f9; color: #b45309; }
-.script-toggle .scr-kiril { display: none; }
-[data-script="kiril"] .script-toggle .scr-lotin { display: none; }
-[data-script="kiril"] .script-toggle .scr-kiril { display: inline; }
-[data-theme="dark"] .script-toggle { color: #d6d3d1; }
-[data-theme="dark"] .script-toggle:hover { background: #292524; color: #fbbf24; }
+.theme-toggle-sm:hover { background: #f1f5f9; color: #b45309; }
+.theme-toggle-sm .icon-moon-sm { display: none; }
+.theme-toggle-sm .icon-sun-sm { display: block; }
+[data-theme="dark"] .theme-toggle-sm { color: #d6d3d1; }
+[data-theme="dark"] .theme-toggle-sm:hover { background: #44403c; color: #fbbf24; }
+[data-theme="dark"] .theme-toggle-sm .icon-sun-sm { display: none; }
+[data-theme="dark"] .theme-toggle-sm .icon-moon-sm { display: block; }
 
-/* === Matn hajmi tugmasi === */
-.size-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  color: #6b7280;
-  flex-shrink: 0;
+.scr-indicator {
   font-size: 13px;
   font-weight: 700;
-  line-height: 1;
+}
+
+.size-btns {
+  display: flex;
+  gap: 4px;
+}
+.size-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 32px;
+  border-radius: 8px;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 600;
   transition: background .15s, color .15s;
 }
-.size-toggle:hover { background: #f1f5f9; color: #b45309; }
-.size-toggle .sz-label { font-size: 16px; }
-[data-font-size="small"] .size-toggle .sz-label { font-size: 13px; }
-[data-font-size="large"] .size-toggle .sz-label { font-size: 20px; }
-[data-theme="dark"] .size-toggle { color: #d6d3d1; }
-[data-theme="dark"] .size-toggle:hover { background: #292524; color: #fbbf24; }
+.size-btn:hover { background: #f1f5f9; color: #b45309; }
+[data-theme="dark"] .size-btn { color: #d6d3d1; }
+[data-theme="dark"] .size-btn:hover { background: #44403c; color: #fbbf24; }
 
 /* === Font size variations === */
 [data-font-size="small"] .word-page h1 { font-size: 20px; }
