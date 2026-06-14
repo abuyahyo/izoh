@@ -131,6 +131,7 @@ function renderWord(rec) {
     <article class="word-page">
       <h1>${esc(wd)}</h1>
       ${rec.part_of_speech ? `<p class="pos">${esc(rec.part_of_speech)}</p>` : ''}
+      ${rec.etymology ? `<p class="etymology">${esc(rec.etymology)}</p>` : ''}
       ${meaningsHtml || '<p style="color:#78716c;">Bu so‘z uchun izoh hali kiritilmagan.</p>'}
     </article>
   `;
