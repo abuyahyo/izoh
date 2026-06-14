@@ -118,6 +118,13 @@ C:\Users\abu_y\izoh\
 - [x] `localStorage` da saqlash
 - [x] `data-script` atributi orqali CSS
 
+### [x] 11. Matn hajmi (small/medium/large)
+- [x] `setupSize()` — 3 bosqichli aylanish (A → A → A)
+- [x] `index.html` da `#size-toggle` tugmasi
+- [x] `data-font-size` atributi + CSS o'zgarishlari
+- [x] `header-inner` ga `flex-wrap: wrap` qo'shildi (agar kerak bo'lsa)
+- [x] `localStorage` da saqlash
+
 ## Qoldiq ishlar / Kamchiliklar
 - ~43 ta entryda `]` ham `|` ham yo'q (OCR butunlay yo'qotgan) — etimologiyasiz qoladi. Ro'yxat: `abjad`, `alpi-salpi`, `axta`, `bardor`, `bargak`, `bargizub`, `benaf`, `chakana`, `daraxtzor`, `faiton`, `gap`, `hijriy`, `hovuzcha`, `hurmattalab`, `izzattalab`, `kapsula`, `lek`, `lola`, `lom`, `loyqalanmoq`, `lozim`, `mil`, `naqshband`, `nomma-nom`, `odamshavanda`, `ojiza`, `partov`, `rezavor`, `riyokorona`, `sari`, `shingarf`, `shirchoy`, `tanketka`, `tevana`, `tezak`, `tikkama-tikka`, `tol`, `tuz`, `uskuna`, `xo'jasavdogar`, `yosmin`, `yotoqxona`, `yumsharmoq`
 - 2 ta so'z data da yo'q: `bo'lish`, `na'matak` (vowel filter? yoki boshqa)

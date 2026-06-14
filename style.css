@@ -346,3 +346,36 @@ footer {
 [data-script="kiril"] .script-toggle .scr-kiril { display: inline; }
 [data-theme="dark"] .script-toggle { color: #d6d3d1; }
 [data-theme="dark"] .script-toggle:hover { background: #292524; color: #fbbf24; }
+
+/* === Matn hajmi tugmasi === */
+.size-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  color: #6b7280;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  transition: background .15s, color .15s;
+}
+.size-toggle:hover { background: #f1f5f9; color: #b45309; }
+.size-toggle .sz-label { font-size: 16px; }
+[data-font-size="small"] .size-toggle .sz-label { font-size: 13px; }
+[data-font-size="large"] .size-toggle .sz-label { font-size: 20px; }
+[data-theme="dark"] .size-toggle { color: #d6d3d1; }
+[data-theme="dark"] .size-toggle:hover { background: #292524; color: #fbbf24; }
+
+/* === Font size variations === */
+[data-font-size="small"] .word-page h1 { font-size: 20px; }
+[data-font-size="small"] .word-page .meaning-def { font-size: 14px; }
+[data-font-size="small"] .word-page .pos { font-size: 12px; }
+[data-font-size="small"] .word-page .etymology { font-size: 12px; }
+
+[data-font-size="large"] .word-page h1 { font-size: 30px; }
+[data-font-size="large"] .word-page .meaning-def { font-size: 20px; }
+[data-font-size="large"] .word-page .pos { font-size: 16px; }
+[data-font-size="large"] .word-page .etymology { font-size: 16px; }

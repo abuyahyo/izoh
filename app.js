@@ -454,6 +454,35 @@ function setupScript() {
   });
 }
 
+// === Font size ===
+const SIZES = ['small', 'medium', 'large'];
+let FONT_SIZE = 'medium';
+
+function setupSize() {
+  const btn = document.getElementById('size-toggle');
+  if (!btn) return;
+
+  try {
+    const saved = localStorage.getItem('fontSize');
+    if (SIZES.includes(saved)) FONT_SIZE = saved;
+  } catch (e) {}
+
+  function apply() {
+    document.documentElement.setAttribute('data-font-size', FONT_SIZE);
+    btn.setAttribute('aria-label', 'Matn hajmi: ' + FONT_SIZE);
+    btn.title = 'Matn hajmi: ' + FONT_SIZE;
+  }
+
+  apply();
+
+  btn.addEventListener('click', () => {
+    const idx = SIZES.indexOf(FONT_SIZE);
+    FONT_SIZE = SIZES[(idx + 1) % SIZES.length];
+    try { localStorage.setItem('fontSize', FONT_SIZE); } catch (e) {}
+    apply();
+  });
+}
+
 // === Random word ===
 function setupRandom() {
   const btn = document.getElementById('random-btn');
@@ -469,6 +498,7 @@ function setupRandom() {
 async function init() {
   setupTheme();
   setupScript();
+  setupSize();
   setupSearch();
   setupRandom();
   setupSW();
