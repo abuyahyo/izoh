@@ -119,6 +119,8 @@ def strip_wiki_markup(text):
     text = text.replace('&nbsp;', ' ')
     # Remove bullet/list artifacts
     text = re.sub(r'^[#*•]\s*', '', text, flags=re.MULTILINE)
+    # Remove trailing " ." artifacts
+    text = re.sub(r'[.\s]+$', '.', text)
     # Clean up spaces
     text = re.sub(r'\s+', ' ', text)
     return text.strip()
@@ -221,8 +223,15 @@ def extract_definitions_wikitext(text):
         if not line:
             continue
         
-        # Check for numbered definition
-        m = re.match(r'(\d+)\s+(.*)', line)
+        # Strip templates/bold to find numbered definition marker
+        clean_line = re.sub(r'{{[^}]+}}', '', line)
+        clean_line = re.sub(r"'''", '', clean_line).strip()
+        
+        # Check for numbered definition (N., N), N)
+        m = re.search(r'(?:^|\s)(\d+)[.)]\s*(.*)', clean_line)
+        if not m:
+            # Fallback: number followed by space
+            m = re.search(r'(?:^|\s)(\d+)\s+(.*)', clean_line)
         if m:
             # Save previous meaning
             if current_num is not None and current_def:
@@ -232,11 +241,13 @@ def extract_definitions_wikitext(text):
                     "examples": current_examples
                 })
             current_num = m.group(1)
-            content = m.group(2)
-            # Extract examples from the line
-            examples = extract_examples_from_line(content)
+            current_def = line  # Use original line (not cleaned) for full def text
+            # Extract examples from the cleaned line
+            examples = extract_examples_from_line(m.group(2))
             current_examples = examples
-            current_def = content
+        elif re.match(r'^\[\[Turkum:', line, re.IGNORECASE) or re.match(r'^={3}', line):
+            # Skip category links and section headers in definitions
+            pass
         else:
             # Continuation of previous definition
             if current_def:
