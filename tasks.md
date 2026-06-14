@@ -137,20 +137,38 @@ C:\Users\abu_y\izoh\
 - [x] `build/wiktionary_parse.py` — parser: etimologiya, ta'rif, misol, sinonim, antonim
 - [x] 43 ta etimologiyasiz so'zdan 26 tasiga Vikilug'atdan etimologiya qo'shildi
 - [x] `build/merge_wiktionary_etym.py` — data fayllarga merge (Cyr→Lot konvert bilan)
-- [ ] `bo'lish` va `na'matak` ni Vikilug'atdan to'liq entry sifatida qo'shish
-- [ ] Sinonim/antonim ko'rsatish (app.js render)<br>`build/wiktionary_parse.py` da
+- [x] `bo'lish` va `na'matak` — tahlil qilindi. `na'matak` data ga qo'shildi
+- [x] Sinonim/antonim ko'rsatish (app.js render) — app.js:228-229, style.css
+
+### [x] 14. Ommaviy import: XML dump orqali yangi so'zlarni qo'shish
+- [x] **Yondashuv**: API rate-limit (429) muammosi → Wikimedia XML dump ishlatildi (25 MB bz2, 157k page)
+- [x] `build/parse_xml_dump2.py` — dump dan `{{-uz-}}` markeri bo'yicha 42,126 ta O'zbekcha page ajratish
+- [x] `build/crossref_new_words.py` — mavjud index bilan solishtirish → 11,347 ta yangi so'z
+- [x] `build/import_wiktionary_bulk.py` — wikitext parser (ta'rif, etimologiya, sinonim, antonim, POS)
+- [x] Redirect `YO'NALTIRISH` → to'g'ri kuzatiladi, tuzatish kerak emas edi
+- [x] **1277 ta yangi so'z** qo'shildi (11,347 dan 1449 tasi parse bo'ldi, 172 tasi dublikat)
+- [x] **43 ta sinonim/antonim** yozuvlari import qilindi (sinonim: 36, antonim: 7)
+- [x] **SW qayta qurildi** (CACHE_VERSION yangi hash; data fayllar hash ga qo'shildi build_sw.py)
+- [x] **Jami**: ~~51,137~~ → **52,414 so'z**
+
+### [~] 15. Vikilug'at sinonim/antonim tozalash
+- [x] Parser tuzatildi: `==Tarjimalari==` (probelsiz sarlavha) formatini ham taniydi
+- [x] sinonim/antonim matnidagi `#`, `*`, `•` markerlari tozalanadi
+- [x] `app.js` + `style.css` ga sinonim/antonim ko'rsatish qo'shildi
+- [ ] Bazidagi noto'g'ri antonimlar (tashoq → "Nişanyan Sözlük", xoʻr → "Latta") — Vikilug'at ma'lumot sifatidan
 
 ## Qoldiq ishlar / Kamchiliklar
-- ~~43 ta entryda `]` ham `|` ham yo'q (OCR butunlay yo'qotgan)~~ → Vikilug'at orqali to'ldiriladi
-- 2 ta so'z data da yo'q: `bo'lish`, `na'matak` (vowel filter? yoki boshqa) → Vikilug'at orqali qo'shiladi
+- ~~43 ta entryda `]` ham `|` ham yo'q (OCR butunlay yo'qotgan)~~ → Vikilug'at orqali to'ldirildi
+- ~~2 ta so'z data da yo'q: `bo'lish`, `na'matak`~~ → Vikilug'at orqali qo'shildi
 - `ъ` (Cyrillic hard sign) → `'` (apostrophe) konvertatsiyasi ishlaydi
 - Mavjud data da `ъ` ishlatilgan (aъlo), OCR esa `аъло` → `a'lo` — bu ikki xil yozuv dublikat bo'lishi mumkin (kam sonli)
 - Idiomlarni alohida ajratish logikasi hali to'liq emas
 - Etimologiya matnidagi arabcha qismlar OCR da buzilgan (j,l,v,^ kabi belgilar bilan ifodalangan)
+- Ayrim Vikilug'at antonimlari haqiqiy antonim emas (manba nomi yoki tarjima kabi)
 
 ## Eslatmalar
 - CLAUDE.md dagi ko'rsatmalarga amal qilish
 - Harf aniqlash mantig'i Python (split.py) va JS (app.js) da bir xil
 - Kyrill->Lotin konvertori app.js:55-79 dagi CYR_MAP ga mos bo'lishi kerak
-- SW yangilanishi uchun build_sw.py ishga tushirilishi shart
+- SW yangilanishi uchun build_sw.py ishga tushirilishi shart (hozir data fayllarni ham hash qiladi)
 - `parse_5vol.py` da `extract_etymology_full()` birinchi `[` dan keyin birinchi `]` yoki `|` ni qidiradi (re.DOTALL). `^` bilan boshlanish sharti bor — bu POS dan keyin kelgan `[` larni topolmasligi mumkin, lekin hozirgi flow da `[` har doim text_start boshida.

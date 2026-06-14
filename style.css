@@ -173,6 +173,36 @@ main {
   line-height: 1.4;
 }
 
+.word-page .synonyms,
+.word-page .antonyms {
+  margin: 20px 0 0;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.word-page .synonyms b,
+.word-page .antonyms b {
+  font-weight: 600;
+  margin-right: 6px;
+}
+.word-page .synonyms {
+  background: #f0fdf4;
+  color: #166534;
+}
+.word-page .antonyms {
+  background: #fef2f2;
+  color: #991b1b;
+}
+[data-theme="dark"] .word-page .synonyms {
+  background: #052e16;
+  color: #86efac;
+}
+[data-theme="dark"] .word-page .antonyms {
+  background: #2e0505;
+  color: #fca5a5;
+}
+
 .meaning {
   display: flex;
   gap: 12px;
@@ -412,8 +442,12 @@ footer {
 [data-font-size="small"] .word-page .meaning-def { font-size: 14px; }
 [data-font-size="small"] .word-page .pos { font-size: 12px; }
 [data-font-size="small"] .word-page .etymology { font-size: 12px; }
+[data-font-size="small"] .word-page .synonyms,
+[data-font-size="small"] .word-page .antonyms { font-size: 12px; }
 
 [data-font-size="large"] .word-page h1 { font-size: 30px; }
 [data-font-size="large"] .word-page .meaning-def { font-size: 20px; }
 [data-font-size="large"] .word-page .pos { font-size: 16px; }
 [data-font-size="large"] .word-page .etymology { font-size: 16px; }
+[data-font-size="large"] .word-page .synonyms,
+[data-font-size="large"] .word-page .antonyms { font-size: 16px; }

@@ -232,6 +232,8 @@ function renderWord(rec) {
 
   const pos = rec.part_of_speech ? toScript(rec.part_of_speech) : '';
   const etym = rec.etymology ? toScript(expandEtym(rec.etymology)) : '';
+  const synonyms = rec.synonyms ? toScript(rec.synonyms) : '';
+  const antonyms = rec.antonyms ? toScript(rec.antonyms) : '';
 
   return `
     <article class="word-page">
@@ -239,6 +241,8 @@ function renderWord(rec) {
       ${pos ? `<p class="pos">${esc(pos)}</p>` : ''}
       ${etym ? `<p class="etymology">${esc(etym)}</p>` : ''}
       ${meaningsHtml || '<p style="color:#78716c;">Bu so‘z uchun izoh hali kiritilmagan.</p>'}
+      ${synonyms ? `<div class="synonyms"><b>Sinonimlari:</b> ${esc(synonyms)}</div>` : ''}
+      ${antonyms ? `<div class="antonyms"><b>Antonimlari:</b> ${esc(antonyms)}</div>` : ''}
     </article>
   `;
 }

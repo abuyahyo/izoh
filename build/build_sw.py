@@ -15,11 +15,14 @@ WATCH = [
     ROOT / "app.js",
     ROOT / "manifest.json",
 ]
+DATA_FILES = sorted((ROOT / "data").glob("*.json"))
 
 
 def main():
     h = hashlib.sha1()
     for f in WATCH:
+        h.update(f.read_bytes())
+    for f in DATA_FILES:
         h.update(f.read_bytes())
     # Also hash the template itself so SW logic changes bump version too
     h.update(TEMPLATE.read_bytes())
